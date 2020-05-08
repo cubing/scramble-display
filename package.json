@@ -4,6 +4,7 @@
   "description": "A library to display puzzle scrambles.",
   "main": "dist/scramble-display.js",
   "types": "dist/scramble-display.d.ts",
+  "repository": "github:cubing/scramble-display",
   "scripts": {
     "build": "npx parcel build --public-url ./ src/index.ts",
     "dev": "npx parcel serve test/index.html src/index.ts",

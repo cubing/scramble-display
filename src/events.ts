@@ -11,6 +11,7 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   "222": {
     name: "2x2x2 Cube",
     svgID: "2x2x2",
+    pg3dID: "2x2x2",
   },
   "333": {
     name: "3x3x3 Cube",
@@ -18,15 +19,23 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   },
   "444": {
     name: "4x4x4 Cube",
+    pg3dID: "4x4x4",
+    svgPGID: "4x4x4",
   },
   "555": {
     name: "5x5x5 Cube",
+    pg3dID: "5x5x5",
+    svgPGID: "5x5x5",
   },
   "666": {
     name: "6x6x6 Cube",
+    pg3dID: "6x6x6",
+    svgPGID: "6x6x6",
   },
   "777": {
     name: "7x7x7 Cube",
+    pg3dID: "7x7x7",
+    svgPGID: "7x7x7",
   },
   "333bf": {
     name: "3x3x3 Blindfolded",
@@ -63,9 +72,13 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   },
   "444bf": {
     name: "4x4x4 Blindfolded",
+    pg3dID: "4x4x4",
+    svgPGID: "4x4x4",
   },
   "555bf": {
     name: "5x5x5 Blindfolded",
+    pg3dID: "5x5x5",
+    svgPGID: "5x5x5",
   },
   "333mbf": {
     name: "3x3x3 Multi - Blind",

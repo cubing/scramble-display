@@ -7,7 +7,7 @@ export class PG3DScrambleView {
   public element: HTMLElement;
   private twisty: Twisty;
   constructor(eventID: EventID) {
-    const pgID = eventInfo[eventID].svgPGID;
+    const pgID = eventInfo[eventID].pg3dID;
     if (!pgID) {
       throw "Unknown PG3D puzzle.";
     }

@@ -1,0 +1,16 @@
+::shadow {
+  overflow: hidden;
+}
+
+.resize-wrapper {
+  resize: both;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  width: 50%;
+  height: 200px;
+}
+
+scramble-display {
+  width: 100%;
+  height: 100%;
+}

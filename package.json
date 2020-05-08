@@ -1,0 +1,21 @@
+{
+  "name": "scramble-display",
+  "version": "0.0.1",
+  "description": "A library to display puzzle scrambles.\"",
+  "main": "dist/scramble-display.html",
+  "types": "dist/scramble-display.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Garron <code@garron.net>",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@types/node": "^13.13.5",
+    "cubing": "^0.10.4",
+    "parcel": "^2.0.0-nightly.248"
+  },
+  "devDependencies": {
+    "@babel/helper-compilation-targets": "^7.9.6",
+    "typescript": "^3.8.3"
+  }
+}

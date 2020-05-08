@@ -1,7 +1,7 @@
 {
   "name": "scramble-display",
   "version": "0.0.1",
-  "description": "A library to display puzzle scrambles.\"",
+  "description": "A library to display puzzle scrambles.",
   "main": "dist/scramble-display.js",
   "types": "dist/scramble-display.d.ts",
   "scripts": {

@@ -8,7 +8,8 @@
   "scripts": {
     "build": "npx parcel build --public-url ./ src/index.ts",
     "dev": "npx parcel serve test/index.html src/index.ts",
-    "clean": "rm -rf dist .parcel-cache"
+    "clean": "rm -rf dist .parcel-cache",
+    "prepack": "npm run clean && npm run build"
   },
   "author": "Lucas Garron <code@garron.net>",
   "license": "GPL-3.0-or-later",

@@ -16,8 +16,8 @@ export type ScrambleDisplayAttributes = {
 
 export class ScrambleDisplay extends HTMLElement {
   // TODO: Private property.
-  private shadow: ShadowRoot;
-  private wrapper: HTMLDivElement = document.createElement("div");
+  #shadow: ShadowRoot;
+  #wrapper: HTMLDivElement = document.createElement("div");
   private currentAttributes: ScrambleDisplayAttributes = {
     event: undefined,
     scramble: undefined,
@@ -31,14 +31,14 @@ export class ScrambleDisplay extends HTMLElement {
   constructor() {
     super();
 
-    this.shadow = this.attachShadow({ mode: "closed" });
-    this.wrapper.classList.add("wrapper");
-    this.shadow.appendChild(this.wrapper);
+    this.#shadow = this.attachShadow({ mode: "closed" });
+    this.#wrapper.classList.add("wrapper");
+    this.#shadow.appendChild(this.#wrapper);
 
     // TODO: change style depending on event/view type?
     const style = document.createElement("style");
     style.textContent = styleText;
-    this.shadow.appendChild(style);
+    this.#shadow.appendChild(style);
   }
 
   private attributeChanged(attributeName: keyof ScrambleDisplayAttributes): boolean {
@@ -52,9 +52,9 @@ export class ScrambleDisplay extends HTMLElement {
           this.checkeredStyleElem = document.createElement("style");
           this.checkeredStyleElem.textContent = checkeredStyleText;
         }
-        this.shadow.appendChild(this.checkeredStyleElem);
-      } else if (this.shadow.contains(this.checkeredStyleElem)) {
-        this.shadow.removeChild(this.checkeredStyleElem)
+        this.#shadow.appendChild(this.checkeredStyleElem);
+      } else if (this.#shadow.contains(this.checkeredStyleElem)) {
+        this.#shadow.removeChild(this.checkeredStyleElem)
       }
     }
     if (this.attributeChanged("event") || this.attributeChanged("visualization")) {
@@ -109,14 +109,14 @@ export class ScrambleDisplay extends HTMLElement {
 
   private clearScrambleView(): void {
     if (this.scrambleView) {
-      this.wrapper.removeChild(this.scrambleView.element);
+      this.#wrapper.removeChild(this.scrambleView.element);
     }
   }
 
   private setScrambleView(scrambleView: ScrambleView): void {
     this.clearScrambleView();
     this.scrambleView = scrambleView;
-    this.wrapper.appendChild(scrambleView.element);
+    this.#wrapper.appendChild(scrambleView.element);
   }
 
   protected connectedCallback() {

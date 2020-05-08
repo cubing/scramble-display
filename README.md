@@ -44,3 +44,8 @@ If you change any of the attributes (e.g. using Javascript, or by hand in DevToo
 
     document.body.appendChild(el);
 
+## License
+
+This project is licensed under the GPL license (version 3 or later). This means that this library is **free to use**, although you **must publish any code that uses it** (e.g. also put it on GitHub). See [the full license](./LICENSE.md) for exact details.
+
+We've selected this license in order to encourage the cubing community to work on software in a way so that everyone can contribute and extend each other's work.

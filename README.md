@@ -1,8 +1,8 @@
-# `scramble-display`
+# `<scramble-display>`
 
 <img alt="Scramble demo" src="./screenshot.png" width="768">
 
-`scramble-display` is an easy way to display scrambles for twisty puzzles like the [Rubik's Cube](https://en.wikipedia.org/wiki/Rubik%27s_Cube) and [WCA puzzles](https://www.worldcubeassociation.org/) in cubing apps.
+`<scramble-display>` is an easy way to display scrambles for twisty puzzles like the [Rubik's Cube](https://en.wikipedia.org/wiki/Rubik%27s_Cube) and [WCA puzzles](https://www.worldcubeassociation.org/) in cubing apps.
 
 You can use it like this:
 

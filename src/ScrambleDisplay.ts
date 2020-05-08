@@ -21,7 +21,8 @@ export class ScrambleDisplay extends HTMLElement {
   private currentAttributes: ScrambleDisplayAttributes = {
     event: undefined,
     scramble: undefined,
-    visualization: undefined
+    visualization: undefined,
+    checkered: undefined,
   }
   private checkeredStyleElem: HTMLStyleElement;
   private scrambleView: ScrambleView;
@@ -99,11 +100,11 @@ export class ScrambleDisplay extends HTMLElement {
 
   public get event(): EventID | null { return this.getAttribute("event") as EventID | null; }
   public get scramble(): string | null { return this.getAttribute("scramble"); }
-  public get view(): Visualization | null { return this.getAttribute("view") as Visualization | null; }
+  public get visualization(): Visualization | null { return this.getAttribute("visualization") as Visualization | null; }
   public get checkered(): boolean | null { return this.getAttribute("checkered") as boolean | null; }
-  public set event(s: EventID | null) { s ? this.setAttribute("event", s) : this.removeAttribute("scramble"); }
+  public set event(s: EventID | null) { s ? this.setAttribute("event", s) : this.removeAttribute("event"); }
   public set scramble(s: string | null) { s ? this.setAttribute("scramble", s) : this.removeAttribute("scramble"); }
-  public set view(s: Visualization | null) { s ? this.setAttribute("view", s) : this.removeAttribute("scramble"); }
+  public set visualization(s: Visualization | null) { s ? this.setAttribute("visualization", s) : this.removeAttribute("visualization"); }
   public set checkered(s: boolean | null) { s ? this.setAttribute("checkered", s.toString()) : this.removeAttribute("checkered"); }
 
   private clearScrambleView(): void {

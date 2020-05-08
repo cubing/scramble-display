@@ -24,6 +24,8 @@ You can specify puzzles other than 3x3x3 using the `event` attribute, and option
       checkered
     ></scramble-display>
 
+If you change any of the attributes (e.g. using Javascript, or by hand in DevTools), the display will update immediately. This makes it ideal for timers that want to show the latest scramble on a part of the screen.
+
 ## Attributes
 
     // More events coming.

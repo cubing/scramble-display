@@ -38,8 +38,6 @@ export class ScrambleDisplay extends HTMLElement {
     const style = document.createElement("style");
     style.textContent = styleText;
     this.shadow.appendChild(style);
-
-    this.render();
   }
 
   private attributeChanged(attributeName: keyof ScrambleDisplayAttributes): boolean {
@@ -118,6 +116,10 @@ export class ScrambleDisplay extends HTMLElement {
     this.clearScrambleView();
     this.scrambleView = scrambleView;
     this.wrapper.appendChild(scrambleView.element);
+  }
+
+  protected connectedCallback() {
+    this.render();
   }
 
   protected attributeChangedCallback(name: string, oldValue: string, newValue: string) {

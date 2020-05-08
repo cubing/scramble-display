@@ -16,6 +16,9 @@ export class SVG2DView implements ScrambleView {
     this.kpuzzle = new KPuzzle(this.definition);
     this.svg = new SVG(this.definition);
 
+    // Remove title elem so that the parent elem title can be used.
+    const titleElem = this.svg.element.querySelector("title");
+    titleElem?.parentElement?.removeChild(titleElem);
   }
 
   public resetScramble() {

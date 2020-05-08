@@ -18,7 +18,7 @@ SFTP_PATH = "towns.dreamhost.com:~/experiments.cubing.net/scramble-display/"
 URL       = "https://experiments.cubing.net/scramble-display/"
 
 .PHONY: deploy
-deploy: clean build
+deploy: 
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \

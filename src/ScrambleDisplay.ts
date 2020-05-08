@@ -4,6 +4,8 @@ import { SVG2DView } from "./scramble-view/SVG2DScrambleView";
 import { ScrambleView } from "./scramble-view/ScrambleView";
 import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
 import { styleText, checkeredStyleText } from "./css";
+import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
+import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
 
 export type Visualization = "2D" | "3D";
 
@@ -15,17 +17,16 @@ export type ScrambleDisplayAttributes = {
 }
 
 export class ScrambleDisplay extends HTMLElement {
-  // TODO: Private property.
   #shadow: ShadowRoot;
   #wrapper: HTMLDivElement = document.createElement("div");
-  private currentAttributes: ScrambleDisplayAttributes = {
+  #currentAttributes: ScrambleDisplayAttributes = {
     event: undefined,
     scramble: undefined,
     visualization: undefined,
     checkered: undefined,
   }
-  private checkeredStyleElem: HTMLStyleElement;
-  private scrambleView: ScrambleView;
+  #checkeredStyleElem: HTMLStyleElement;
+  #scrambleView: ScrambleView;
 
   // TODO: Accept ScrambleDisplayAttributes arg?
   constructor() {
@@ -42,57 +43,75 @@ export class ScrambleDisplay extends HTMLElement {
   }
 
   private attributeChanged(attributeName: keyof ScrambleDisplayAttributes): boolean {
-    return this.currentAttributes[attributeName] !== this.getAttribute(attributeName);
+    return this.#currentAttributes[attributeName] !== this.getAttribute(attributeName);
   }
 
   private render(): void {
     if (this.attributeChanged("checkered")) {
       if (this.getAttribute("checkered") !== null) {
-        if (!this.checkeredStyleElem) {
-          this.checkeredStyleElem = document.createElement("style");
-          this.checkeredStyleElem.textContent = checkeredStyleText;
+        if (!this.#checkeredStyleElem) {
+          this.#checkeredStyleElem = document.createElement("style");
+          this.#checkeredStyleElem.textContent = checkeredStyleText;
         }
-        this.#shadow.appendChild(this.checkeredStyleElem);
-      } else if (this.#shadow.contains(this.checkeredStyleElem)) {
-        this.#shadow.removeChild(this.checkeredStyleElem)
+        this.#shadow.appendChild(this.#checkeredStyleElem);
+      } else if (this.#shadow.contains(this.#checkeredStyleElem)) {
+        this.#shadow.removeChild(this.#checkeredStyleElem)
       }
     }
     if (this.attributeChanged("event") || this.attributeChanged("visualization")) {
       // TODO: validate new values.
-      this.currentAttributes.event = (this.getAttribute("event") ?? "333") as EventID;
-      this.currentAttributes.visualization = (this.getAttribute("visualization") ?? "2D") as Visualization;
-      this.currentAttributes.scramble = (this.getAttribute("scramble")) as string;
-      switch (this.currentAttributes.visualization) {
+      this.#currentAttributes.event = (this.getAttribute("event") ?? "333") as EventID;
+      this.#currentAttributes.visualization = (this.getAttribute("visualization") ?? "2D") as Visualization;
+      this.#currentAttributes.scramble = (this.getAttribute("scramble")) as string;
+      switch (this.#currentAttributes.visualization) {
         case "3D":
-          if (this.currentAttributes.event === "333") {
+          if (PG3DScrambleView.eventImplemented(this.#currentAttributes.event)) {
+            this.setScrambleView(new PG3DScrambleView(this.#currentAttributes.event));
+            if (this.#currentAttributes.scramble) {
+              this.#scrambleView.setScramble(this.#currentAttributes.scramble);
+            }
+          } else if (this.#currentAttributes.event === "333") {
             this.setScrambleView(new Cube3DScrambleView());
-            if (this.currentAttributes.scramble) {
-              this.scrambleView.setScramble(this.currentAttributes.scramble);
+            if (this.#currentAttributes.scramble) {
+              this.#scrambleView.setScramble(this.#currentAttributes.scramble);
             }
           } else {
             this.clearScrambleView();
-            throw new Error(`3D view is not implemented for this event (${this.currentAttributes.event}).`);
+            throw new Error(`3D view is not implemented for this event (${this.#currentAttributes.event}).`);
           }
           break;
         case "2D":
         default:
-          if (!this.currentAttributes.event || !SVG2DView.eventImplemented(this.currentAttributes.event)) {
+          if (!this.#currentAttributes.event) {
             this.clearScrambleView();
-            throw new Error(`2D view is not implemented for this event (${this.currentAttributes.event}).`);
+            throw new Error("Unspecified event.");
           }
-          const svg2DView = new SVG2DView(this.currentAttributes.event);
-          if (this.currentAttributes.scramble) {
-            svg2DView.setScramble(this.currentAttributes.scramble);
+          if (SVGPGScrambleView.eventImplemented(this.#currentAttributes.event)) {
+            const svgPGView = new SVGPGScrambleView(this.#currentAttributes.event);
+            if (this.#currentAttributes.scramble) {
+              svgPGView.setScramble(this.#currentAttributes.scramble);
+            }
+            this.setScrambleView(svgPGView);
+            break;
+          } else if (SVG2DView.eventImplemented(this.#currentAttributes.event)) {
+            const svg2DView = new SVG2DView(this.#currentAttributes.event);
+            if (this.#currentAttributes.scramble) {
+              svg2DView.setScramble(this.#currentAttributes.scramble);
+            }
+            this.setScrambleView(svg2DView);
+            break;
+          } else {
+            this.clearScrambleView();
+            throw new Error(`2D view is not implemented for this event (${this.#currentAttributes.event}).`);
           }
-          this.setScrambleView(svg2DView);
       }
     } else {
       if (this.attributeChanged("scramble")) {
-        this.currentAttributes.scramble = this.getAttribute("scramble") ?? "";
-        if (this.currentAttributes.scramble) {
-          this.scrambleView.setScramble(this.currentAttributes.scramble);
+        this.#currentAttributes.scramble = this.getAttribute("scramble") ?? "";
+        if (this.#currentAttributes.scramble) {
+          this.#scrambleView.setScramble(this.#currentAttributes.scramble);
         } else {
-          this.scrambleView.resetScramble();
+          this.#scrambleView.resetScramble();
         }
       }
     }
@@ -108,14 +127,14 @@ export class ScrambleDisplay extends HTMLElement {
   public set checkered(s: boolean | null) { s ? this.setAttribute("checkered", s.toString()) : this.removeAttribute("checkered"); }
 
   private clearScrambleView(): void {
-    if (this.scrambleView) {
-      this.#wrapper.removeChild(this.scrambleView.element);
+    if (this.#scrambleView) {
+      this.#wrapper.removeChild(this.#scrambleView.element);
     }
   }
 
   private setScrambleView(scrambleView: ScrambleView): void {
     this.clearScrambleView();
-    this.scrambleView = scrambleView;
+    this.#scrambleView = scrambleView;
     this.#wrapper.appendChild(scrambleView.element);
   }
 

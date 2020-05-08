@@ -1,6 +1,13 @@
 export type EventID = "222" | "333" | "444" | "555" | "666" | "777" | "333bf" | "333fm" | "333oh" | "clock" | "minx" | "pyram" | "skewb" | "sq1" | "444bf" | "555bf" | "333mbf" | "333ft";
 
-export const eventInfo: { [eventId: string]: { name: string, svgID?: string } } = {
+type EventInfoData = {
+  name: string,
+  svgID?: string,
+  pg3dID?: string,
+  svgPGID?: string
+};
+
+export const eventInfo: { [eventId: string]: EventInfoData } = {
   "222": {
     name: "2x2x2 Cube",
     svgID: "2x2x2",
@@ -39,6 +46,8 @@ export const eventInfo: { [eventId: string]: { name: string, svgID?: string } } 
   },
   "minx": {
     name: "Megaminx",
+    pg3dID: "megaminx",
+    svgPGID: "megaminx",
   },
   "pyram": {
     name: "Pyraminx",
@@ -46,6 +55,8 @@ export const eventInfo: { [eventId: string]: { name: string, svgID?: string } } 
   },
   "skewb": {
     name: "Skewb",
+    pg3dID: "skewb",
+    svgPGID: "skewb",
   },
   "sq1": {
     name: "Square - 1",

@@ -106,6 +106,10 @@ twisty player ksolve-svg-view .svg-wrapper svg {
   height: 90%;
 }
 
+/* TODO */
+cube3d-wrapper.back {
+  display: none;
+}
 
 /*
 twisty {

@@ -61,7 +61,7 @@ If you change any of the attributes (e.g. using Javascript, or by hand in DevToo
 | `minx` | ✅ | ✅ | ❌ |
 | `pyram` | ✅ | ❌ | ✅ |
 | `skewb` | ✅ | ✅ | ❌ |
-| `sq1` | ❌ | ❌ | ❌ |
+| `sq1` | ✅ | ❌ | ❌ |
 | `444bf` | ✅ | ✅ | ⚠ |
 | `555bf` | ✅ | ✅ | ⚠️¹ |
 | `333mbf` | ✅ | ❌ | ⚠️¹ |

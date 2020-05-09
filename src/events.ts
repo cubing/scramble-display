@@ -68,7 +68,8 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
     svgPGID: "skewb",
   },
   "sq1": {
-    name: "Square - 1",
+    name: "Square-1",
+    svgID: "sq1",
   },
   "444bf": {
     name: "4x4x4 Blindfolded",

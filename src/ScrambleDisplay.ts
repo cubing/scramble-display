@@ -3,7 +3,7 @@ import { EventID } from "./events";
 import { SVG2DView } from "./scramble-view/SVG2DScrambleView";
 import { ScrambleView } from "./scramble-view/ScrambleView";
 import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
-import { styleText, checkeredStyleText } from "./css";
+import { styleText, checkeredStyleText, invalidScrambleStyleText } from "./css";
 import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
 import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
 
@@ -26,6 +26,7 @@ export class ScrambleDisplay extends HTMLElement {
     checkered: undefined,
   }
   #checkeredStyleElem: HTMLStyleElement;
+  #invalidScrambleStyleElem: HTMLStyleElement;
   #scrambleView: ScrambleView;
 
   // TODO: Accept ScrambleDisplayAttributes arg?
@@ -115,7 +116,18 @@ export class ScrambleDisplay extends HTMLElement {
   public set checkered(s: boolean | null) { s ? this.setAttribute("checkered", s.toString()) : this.removeAttribute("checkered"); }
 
   private setScramble(s: string): void {
-    this.#scrambleView.setScramble(s);
+    try {
+      this.#scrambleView.setScramble(s);
+      if (this.#shadow.contains(this.#invalidScrambleStyleElem)) {
+        this.#shadow.removeChild(this.#invalidScrambleStyleElem)
+      }
+    } catch (e) {
+      if (!this.#invalidScrambleStyleElem) {
+        this.#invalidScrambleStyleElem = document.createElement("style");
+        this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
+      }
+      this.#shadow.appendChild(this.#invalidScrambleStyleElem);
+    }
     this.#wrapper.setAttribute("title", s);
   }
 

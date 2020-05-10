@@ -1,6 +1,6 @@
 import { KPuzzle, KPuzzleDefinition, Puzzles, SVG } from "cubing/kpuzzle";
 import { EventID, eventInfo } from "../events";
-import { parseInEvent } from "../parsers";
+import { parseForEvent } from "../parsers";
 import { ScrambleView } from "./ScrambleView";
 
 export class SVG2DView implements ScrambleView {
@@ -28,7 +28,7 @@ export class SVG2DView implements ScrambleView {
   public setScramble(scramble: string): void {
     this.kpuzzle.reset();
     try {
-      this.kpuzzle.applyAlg(parseInEvent(this.eventID, scramble));
+      this.kpuzzle.applyAlg(parseForEvent(this.eventID, scramble));
     } catch (e) {
       console.log(e);
       throw new Error("Invalid scramble!"); // TODO

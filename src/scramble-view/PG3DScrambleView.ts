@@ -1,7 +1,7 @@
 import { Sequence } from "cubing/alg";
 import { Twisty, TwistyParams } from "cubing/twisty";
 import { EventID, eventInfo } from "../events";
-import { parseInEvent } from "../parsers";
+import { parseForEvent } from "../parsers";
 import { puzzles } from "./vendor/DisplayablePG3D";
 
 export class PG3DScrambleView {
@@ -46,7 +46,7 @@ export class PG3DScrambleView {
 
   public setScramble(scramble: string): void {
     try {
-      this.twisty.experimentalSetAlg(parseInEvent(this.eventID, scramble));
+      this.twisty.experimentalSetAlg(parseForEvent(this.eventID, scramble));
     } catch (e) {
       throw new Error("invalid scramble");
     }

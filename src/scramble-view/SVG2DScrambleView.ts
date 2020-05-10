@@ -30,6 +30,7 @@ export class SVG2DView implements ScrambleView {
     try {
       this.kpuzzle.applyAlg(parseInEvent(this.eventID, scramble));
     } catch (e) {
+      console.log(e);
       throw new Error("Invalid scramble!"); // TODO
     }
     this.svg.draw(this.definition, this.kpuzzle.state);

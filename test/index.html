@@ -2,54 +2,57 @@
 <html>
 
 <head>
-  <script src="../src/index.ts"></script>
+  <script src="../src/index.ts" defer></script>
   <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-  <a href="https://github.com/cubing/scramble-display">https://github.com/cubing/scramble-display</a>
 
-  <scramble-display scramble="R U R'"></scramble-display>
-  <scramble-display event="222" scramble="R U R'"></scramble-display>
+  <div class="header">
+    <h1><a href="https://github.com/cubing/scramble-display"><code>&lt;scramble-display&gt;</code></a></h1>
+  </div>
 
-  <scramble-display scramble="R U R'" checkered=""></scramble-display>
-  <scramble-display scramble="R U R'" visualization="3D" checkered=""></scramble-display>
-  </scramble-display>
-  <scramble-display event="444"
-    scramble="D B' L2 U2 L2 U2 R2 F2 U' B2 L2 R2 F2 R D' B' F2 L' D' U' Rw2 Uw2 U L2 F Uw2 B U' D' Fw2 F2 L2 Fw2 Rw F2 R2 L' D2 Uw' Fw' U D2 Fw2 Uw F2"
-    visualization="3D">
-  </scramble-display>
+  <div id="examples">
+    <scramble-display scramble="L R2 U2 R2 B2 R F2 D2 U2 R B2 F U R' B2 D2 U' B2 L F2 D"></scramble-display>
+    <scramble-display visualization="3D" checkered scramble="L R2 U2 R2 B2 R F2 D2 U2 R B2 F U R' B2 D2 U' B2 L F2 D">
+    </scramble-display>
+    <scramble-display visualization="3D" scramble="L R2 U2 R2 B2 R F2 D2 U2 R B2 F U R' B2 D2 U' B2 L F2 D">
+    </scramble-display>
+    <scramble-display event="222" scramble="R' F U2 F U F U' R2 U2 R2 U"></scramble-display>
+    <scramble-display event="444"
+      scramble="B' R2 U' L' D L2 D U R B' U2 L2 R2 F R2 B R2 B2 U2 R2 Rw2 U' R Fw2 U L2 R' Uw2 Rw2 L F2 R D F' L' Fw' U B2 Uw B2 Uw' Rw2 L' B2 U">
+    </scramble-display>
+    <scramble-display event="555"
+      scramble="F Dw2 B D Bw Dw2 R Uw' Dw L' F' Lw2 Rw' Uw Dw2 D Rw2 Bw B Dw' U L F' Uw2 U' Dw R' U' Dw2 Bw2 Lw2 B' L R' Rw' Dw' Fw Rw D' B2 F Dw B L2 D F Lw Fw' Uw' R' B2 F2 U2 Dw' B2 L Lw Dw' U B'">
+    </scramble-display>
+    <scramble-display event="666"
+      scramble="Rw2 L2 R2 Uw2 3Rw' 3Fw Dw' 3Uw2 Rw' Dw2 B' 3Fw2 D 3Fw R' 3Fw2 L' 3Fw2 F B R2 B2 U2 3Uw F2 Bw Uw' D2 Fw' R' U2 Lw B Uw2 Fw L2 U' Rw' Bw' Uw' R' L' Fw' Rw2 3Rw2 Uw' 3Fw F' U2 3Rw' B' Lw Fw 3Fw Lw 3Rw' U L 3Uw2 B R' 3Fw2 L' U' Uw' Dw Bw2 F2 L 3Rw' Dw R' Fw R2 Rw' U 3Rw2 B2 Dw2 L">
+    </scramble-display>
+    <scramble-display event="777"
+      scramble="3Uw Lw B2 3Dw' Rw2 Uw' 3Dw Bw2 L Rw2 F2 3Fw2 U2 3Bw' U Lw F Rw2 F2 3Dw2 Fw 3Lw2 3Rw' Dw 3Fw Dw2 Uw2 Bw Fw2 Rw' D2 Bw U' Fw2 F L 3Dw2 Lw' Dw2 Lw 3Dw' F 3Dw Dw2 U2 F Dw' 3Rw' 3Uw Uw R Dw 3Rw2 3Fw2 3Lw' L2 B Uw2 3Rw2 3Fw B Lw2 3Fw' 3Rw2 U' Dw F2 Fw' D R' 3Bw2 B Bw' D' 3Lw2 R F 3Bw' R2 3Lw2 Uw B 3Uw Lw' 3Uw2 3Fw' Lw' L' 3Dw2 F R' D2 Bw Fw' 3Rw Fw' L2 D Rw' F2">
+    </scramble-display>
+    <scramble-display event="777" visualization="3D"
+      scramble="3Uw Lw B2 3Dw' Rw2 Uw' 3Dw Bw2 L Rw2 F2 3Fw2 U2 3Bw' U Lw F Rw2 F2 3Dw2 Fw 3Lw2 3Rw' Dw 3Fw Dw2 Uw2 Bw Fw2 Rw' D2 Bw U' Fw2 F L 3Dw2 Lw' Dw2 Lw 3Dw' F 3Dw Dw2 U2 F Dw' 3Rw' 3Uw Uw R Dw 3Rw2 3Fw2 3Lw' L2 B Uw2 3Rw2 3Fw B Lw2 3Fw' 3Rw2 U' Dw F2 Fw' D R' 3Bw2 B Bw' D' 3Lw2 R F 3Bw' R2 3Lw2 Uw B 3Uw Lw' 3Uw2 3Fw' Lw' L' 3Dw2 F R' D2 Bw Fw' 3Rw Fw' L2 D Rw' F2">
+    </scramble-display>
+    <scramble-display event="minx"
+      scramble="R++ D-- R++ D++ R-- D-- R-- D-- R++ D-- U' R++ D++ R-- D-- R-- D-- R++ D-- R-- D++ U R++ D-- R++ D++ R++ D-- R++ D++ R-- D++ U R++ D++ R++ D++ R-- D-- R++ D++ R++ D++ U R++ D-- R++ D++ R-- D-- R-- D++ R++ D++ U R-- D-- R++ D-- R++ D++ R-- D-- R++ D++ U R-- D-- R-- D-- R-- D++ R-- D-- R-- D++ U">
+    </scramble-display>
+    <scramble-display event="minx" visualization="3D"
+      scramble="R++ D-- R++ D++ R-- D-- R-- D-- R++ D-- U' R++ D++ R-- D-- R-- D-- R++ D-- R-- D++ U R++ D-- R++ D++ R++ D-- R++ D++ R-- D++ U R++ D++ R++ D++ R-- D-- R++ D++ R++ D++ U R++ D-- R++ D++ R-- D-- R-- D++ R++ D++ U R-- D-- R++ D-- R++ D++ R-- D-- R++ D++ U R-- D-- R-- D-- R-- D++ R-- D-- R-- D++ U">
+    </scramble-display>
+    <scramble-display event="pyram" scramble="L' R B R' U R B' R' U L U' u l b">
+    </scramble-display>
+    <scramble-display event="sq1"
+      scramble="(-5, 0) / (-3, 0) / (3, 0) / (-4, -1) / (-5, -5) / (6, 0) / (-4, -3) / (-3, 0) / (4, -1) / (-4, 0) / (0, -5) / (2, -2)">
+    </scramble-display>
+    <scramble-display event="clock" scramble="UR3- DR3+ DL5- UL1+ U3+ R3+ D2+ L3+ ALL3- y2 U2+ R2+ D0+ L1- ALL0+ DL">
+    </scramble-display>
+    <scramble-display event="skewb" scramble="U L' R U' L U L' U' B U' B">
+    </scramble-display>
+    <scramble-display event="skewb" visualization="3D" checkered scramble="U L' R U' L U L' U' B U' B">
+    </scramble-display>
+  </div>
 
-  <scramble-display event="666"
-    scramble="R Uw U2 3Uw' L2 B2 Bw' Fw U2 Lw Fw F' D' Bw2 F2 3Rw 3Uw' F' Uw 3Uw B2 Dw B' 3Uw' L2 D L2 3Fw' Uw 3Fw Dw2 Uw2 3Rw F2 3Fw2 B2 3Rw2 L2 3Fw Fw2 F' L' B' D' L2 Uw' 3Rw Uw' Fw 3Fw2 Dw' B Lw2 R' 3Uw 3Fw2 3Rw 3Uw 3Fw 3Rw2 3Uw2 Bw2 3Rw' U' 3Fw2 Lw Uw 3Uw Rw' Lw' B2 Bw2 Fw' Uw' Lw' Dw2 Bw Uw' B' Rw2">
-  </scramble-display>
-
-  <scramble-display event="pyram" scramble="R U R'"></scramble-display>
-  <scramble-display event="clock" scramble="UR3- DR3+ DL5- UL1+ U3+ R3+ D2+ L3+ ALL3- y2 U2+ R2+ D0+ L1- ALL0+ DL">
-  </scramble-display>
-
-  <scramble-display event="sq1"
-    scramble="(0, 5) / (1, -2) / (5, 2) / (3, 0) / (3, 0) / (-3, -3) / (0, -5) / (3, 0) / (1, 0) / (4, -4) / (-2, -2) / (6, -3) /"
-    style="width: 30vh; height: 40vh;">
-  </scramble-display>
-
-  <scramble-display scramble="R++ D++ R++ D-- R-- D-- R-- D-- R-- D-- U'
-R-- D++ R++ D-- R-- D++ R++ D-- R++ D-- U'
-R-- D++ R++ D-- R-- D++ R++ D++ R-- D++ U
-R-- D-- R++ D-- R-- D++ R++ D++ R++ D++ U
-R++ D++ R++ D-- R-- D-- R++ D-- R++ D++ U
-R-- D++ R++ D++ R-- D++ R-- D++ R-- D-- U'
-R-- D++ R++ D-- R++ D++ R-- D++ R-- D-- U'" event="minx"></scramble-display>
-  <scramble-display scramble="R++ D++ R++ D-- R-- D-- R-- D-- R-- D-- U'
-R-- D++ R++ D-- R-- D++ R++ D-- R++ D-- U'
-R-- D++ R++ D-- R-- D++ R++ D++ R-- D++ U
-R-- D-- R++ D-- R-- D++ R++ D++ R++ D++ U
-R++ D++ R++ D-- R-- D-- R++ D-- R++ D++ U
-R-- D++ R++ D++ R-- D++ R-- D++ R-- D-- U'
-R-- D++ R++ D-- R++ D++ R-- D++ R-- D-- U'" event="minx" visualization="3D"></scramble-display>
-
-  <scramble-display scramble="U L' R U' L U L' U' B U' B" event="skewb"></scramble-display>
-  <scramble-display scramble="U L' R U' L U L' U' B U' B" event="skewb" visualization="3D"></scramble-display>
 </body>
 
 </html>

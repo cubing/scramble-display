@@ -14,7 +14,8 @@
   "author": "Lucas Garron <code@garron.net>",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "cubing": "^0.10.4"
+    "cubing": "^0.10.4",
+    "parcel-transformer-pegjs": "^1.0.0-pre1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",

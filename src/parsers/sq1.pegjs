@@ -14,4 +14,4 @@ MOVE_LIST = U_D_MOVE_LIST / SLICE_MOVE_LIST
 MOVE_LIST_LIST = move:MOVE_LIST WHITESPACE seq:MOVE_LIST_LIST { if (move[0].family === seq[0].family) throw new Error("Adjacent Square-1 moves of the same type are not supported.") ; return move.concat(seq); }   /
            move:MOVE_LIST { return move; }
 
-SEQUENCE = moveList:MOVE_LIST_LIST { return {"type": "sequence", "nestedUnits": moveList.filter((move) => move.amount !== 0)}; }
+SEQUENCE = moveList:MOVE_LIST_LIST { return {"type": "sequence", "nestedUnits": moveList.filter(function(move) { return move.amount !== 0;})}; }

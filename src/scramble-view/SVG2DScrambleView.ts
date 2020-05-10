@@ -1,8 +1,7 @@
-import { parse, invert } from "cubing/alg";
-import { KPuzzle, Puzzles, SVG, KPuzzleDefinition } from "cubing/kpuzzle";
+import { KPuzzle, KPuzzleDefinition, Puzzles, SVG } from "cubing/kpuzzle";
 import { EventID, eventInfo } from "../events";
+import { parseInEvent } from "../parsers";
 import { ScrambleView } from "./ScrambleView";
-import { sq1Parse } from "../parsers";
 
 export class SVG2DView implements ScrambleView {
   private svg: SVG;
@@ -29,8 +28,7 @@ export class SVG2DView implements ScrambleView {
   public setScramble(scramble: string): void {
     this.kpuzzle.reset();
     try {
-      const seq = (this.eventID === "sq1") ? sq1Parse(scramble) : parse(scramble);
-      this.kpuzzle.applyAlg(seq);
+      this.kpuzzle.applyAlg(parseInEvent(this.eventID, scramble));
     } catch (e) {
       throw new Error("Invalid scramble!"); // TODO
     }

@@ -1,6 +1,6 @@
-import { parse } from "cubing/alg";
 import { KPuzzle, KPuzzleDefinition, SVG } from "cubing/kpuzzle";
 import { EventID, eventInfo } from "../events";
+import { parseInEvent } from "../parsers";
 import { ScrambleView } from "./ScrambleView";
 import { puzzles } from "./vendor/DisplayablePG3D";
 
@@ -8,7 +8,7 @@ export class SVGPGScrambleView implements ScrambleView {
   private svg: SVG;
   private definition: KPuzzleDefinition;
   private kpuzzle: KPuzzle;
-  constructor(eventID: EventID) {
+  constructor(private eventID: EventID) {
     const pgID = eventInfo[eventID].svgPGID;
     if (!pgID) {
       throw "Unknown PG SVG puzzle.";
@@ -28,7 +28,7 @@ export class SVGPGScrambleView implements ScrambleView {
   public setScramble(scramble: string): void {
     this.kpuzzle.reset();
     try {
-      this.kpuzzle.applyAlg(parse(scramble));
+      this.kpuzzle.applyAlg(parseInEvent(this.eventID, scramble));
     } catch (e) {
       throw new Error("Invalid scramble!"); // TODO
     }

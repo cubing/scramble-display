@@ -1,12 +1,13 @@
-import { parse, Sequence } from "cubing/alg";
+import { Sequence } from "cubing/alg";
 import { Twisty, TwistyParams } from "cubing/twisty";
+import { EventID, eventInfo } from "../events";
+import { parseInEvent } from "../parsers";
 import { puzzles } from "./vendor/DisplayablePG3D";
-import { eventInfo, EventID } from "../events";
 
 export class PG3DScrambleView {
   public element: HTMLElement;
   private twisty: Twisty;
-  constructor(eventID: EventID) {
+  constructor(private eventID: EventID) {
     const pgID = eventInfo[eventID].pg3dID;
     if (!pgID) {
       throw "Unknown PG3D puzzle.";
@@ -43,10 +44,9 @@ export class PG3DScrambleView {
     this.twisty.experimentalSetAlg(new Sequence([]));
   }
 
-  public setScramble(s: string): void {
+  public setScramble(scramble: string): void {
     try {
-      const seq = parse(s);
-      this.twisty.experimentalSetAlg(seq);
+      this.twisty.experimentalSetAlg(parseInEvent(this.eventID, scramble));
     } catch (e) {
       throw new Error("invalid scramble");
     }

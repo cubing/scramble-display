@@ -23,7 +23,10 @@ deploy:
 	@echo ""
 	@echo make clean
 	@echo npx parcel serve --no-hmr --no-source-maps test/index.html
-	@echo npx terser --compress --mangle dist/scramble-display.*.js -o dist/scramble-display.browser.js
+	@echo "[Ctrl-C to interrupt Parcel once it's finished the initial build]"
+	@echo ""
+	@echo npx terser --compress --mangle -o dist/scramble-display.browser.js dist/scramble-display.????????.js
+	@echo ""
 
 # rsync -avz \
 # 	--exclude .DS_Store \

@@ -20,5 +20,3 @@ export function parseForEvent(eventID: EventID, s: string): Sequence {
       return algParse(s);
   }
 }
-
-console.log(parseForEvent("skewb", "U L' R U' L U L' U' B U' B"))

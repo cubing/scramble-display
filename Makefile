@@ -19,9 +19,15 @@ URL       = "https://experiments.cubing.net/scramble-display/"
 
 .PHONY: deploy
 deploy: 
-	rsync -avz \
-		--exclude .DS_Store \
-		--exclude .git \
-		./dist/ \
-		${SFTP_PATH}
-	echo "\nDone deploying. Go to ${URL}\n"
+	@echo "Bundling during building is not working. Use this:"
+	@echo ""
+	@echo make clean
+	@echo npx parcel serve --no-hmr --no-source-maps test/index.html
+	@echo npx terser --compress --mangle dist/scramble-display.*.js -o dist/scramble-display.browser.js
+
+# rsync -avz \
+# 	--exclude .DS_Store \
+# 	--exclude .git \
+# 	./dist/ \
+# 	${SFTP_PATH}
+# echo "\nDone deploying. Go to ${URL}\n"

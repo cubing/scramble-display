@@ -78,6 +78,7 @@ const puzzles: { [s: string]: DisplayablePuzzle } = {};
 for (const key in KPuzzles) {
   puzzles[key as any] = new DisplayableKPuzzle(key);
 }
+puzzles.pyraminx = new DisplayablePG3D("Pyraminx", "pyraminx", PGPuzzles.pyraminx, false);
 puzzles.megaminx = new DisplayablePG3D("Megaminx", "megaminx", PGPuzzles.megaminx, false);
 puzzles.skewb = new DisplayablePG3D("Skewb", "skewb", PGPuzzles.skewb, true);
 puzzles.fto = new DisplayablePG3D("FTO", "FTO", "o f 0.333333333333333 v -2", true);

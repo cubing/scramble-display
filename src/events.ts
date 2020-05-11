@@ -61,6 +61,7 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   "pyram": {
     name: "Pyraminx",
     svgID: "pyraminx",
+    pg3dID: "pyraminx",
   },
   "skewb": {
     name: "Skewb",

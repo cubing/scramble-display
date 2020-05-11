@@ -122,7 +122,7 @@ scramble-display {
 | `333mbf` | ✅ | ✅ | ⚠️¹ |
 | `333ft` | ✅ | ✅ | ⚠️¹ |
 
-⚠️: Currently accepts all valid WCA notation as well as some non-WCA moves. Support for non-WCA moves will be removed in the future.
+¹ Currently accepts all valid WCA notation as well as some non-WCA moves. Support for non-WCA moves may be removed in the future.
 
 Please contribute to help us make this chart 100% green!
 

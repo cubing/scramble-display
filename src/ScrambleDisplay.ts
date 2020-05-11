@@ -65,23 +65,6 @@ export class ScrambleDisplay extends HTMLElement {
       this.#currentAttributes.visualization = (this.getAttribute("visualization") ?? "2D") as Visualization;
       this.#currentAttributes.scramble = (this.getAttribute("scramble")) as string;
 
-      const render2D = () => {
-        if (!this.#currentAttributes.event) {
-          this.clearScrambleView();
-          throw new Error("Unspecified event.");
-        }
-        if (SVGPGScrambleView.eventImplemented(this.#currentAttributes.event)) {
-          const svgPGView = new SVGPGScrambleView(this.#currentAttributes.event);
-          this.setScrambleView(svgPGView, this.#currentAttributes.scramble);
-        } else if (SVG2DView.eventImplemented(this.#currentAttributes.event)) {
-          const svg2DView = new SVG2DView(this.#currentAttributes.event);
-          this.setScrambleView(svg2DView, this.#currentAttributes.scramble);
-        } else {
-          this.clearScrambleView();
-          throw new Error(`2D view is not implemented for this event (${this.#currentAttributes.event}).`);
-        }
-      }
-
       switch (this.#currentAttributes.visualization) {
         case "3D":
           if (PG3DScrambleView.eventImplemented(this.#currentAttributes.event)) {
@@ -90,12 +73,12 @@ export class ScrambleDisplay extends HTMLElement {
             this.setScrambleView(new Cube3DScrambleView(), this.#currentAttributes.scramble);
           } else {
             console.warn(`3D view is not implemented for this event yet (${this.#currentAttributes.event}). Falling back to 2D.`);
-            render2D();
+            this.render2D();
           }
           break;
         case "2D":
         default:
-          render2D();
+          this.render2D();
       }
     } else {
       if (this.attributeChanged("scramble")) {
@@ -106,6 +89,24 @@ export class ScrambleDisplay extends HTMLElement {
           this.#scrambleView.resetScramble();
         }
       }
+    }
+  }
+
+  // We break out the 2D implementation so that the 3D implementation can call it as a fallback without overly clever break/continue hacks.
+  private render2D(): void {
+    if (!this.#currentAttributes.event) {
+      this.clearScrambleView();
+      throw new Error("Unspecified event.");
+    }
+    if (SVGPGScrambleView.eventImplemented(this.#currentAttributes.event)) {
+      const svgPGView = new SVGPGScrambleView(this.#currentAttributes.event);
+      this.setScrambleView(svgPGView, this.#currentAttributes.scramble);
+    } else if (SVG2DView.eventImplemented(this.#currentAttributes.event)) {
+      const svg2DView = new SVG2DView(this.#currentAttributes.event);
+      this.setScrambleView(svg2DView, this.#currentAttributes.scramble);
+    } else {
+      this.clearScrambleView();
+      throw new Error(`2D view is not implemented for this event (${this.#currentAttributes.event}).`);
     }
   }
 

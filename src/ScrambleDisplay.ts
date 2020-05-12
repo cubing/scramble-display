@@ -16,18 +16,26 @@ export type ScrambleDisplayAttributes = {
   checkered?: boolean;
 }
 
+export type CachedAttributes = {
+  event: string | null,
+  scramble: string | null,
+  visualization: string | null;
+  checkered: string | null;
+}
+
 export class ScrambleDisplay extends HTMLElement {
   #shadow: ShadowRoot;
   #wrapper: HTMLDivElement = document.createElement("div");
-  #currentAttributes: ScrambleDisplayAttributes = {
-    event: undefined,
-    scramble: undefined,
-    visualization: undefined,
-    checkered: undefined,
+  #currentAttributes: CachedAttributes = {
+    event: null,
+    scramble: null,
+    visualization: null,
+    checkered: null,
   }
   #checkeredStyleElem: HTMLStyleElement;
   #invalidScrambleStyleElem: HTMLStyleElement;
   #scrambleView: ScrambleView;
+  #hasRendered: boolean = false;
 
   // TODO: Accept ScrambleDisplayAttributes arg?
   constructor() {
@@ -49,7 +57,9 @@ export class ScrambleDisplay extends HTMLElement {
 
   private render(): void {
     if (this.attributeChanged("checkered")) {
-      if (this.getAttribute("checkered") !== null) {
+      this.#currentAttributes.checkered = this.getAttribute("checkered");
+      const checkered = this.#currentAttributes.checkered !== null;
+      if (checkered) {
         if (!this.#checkeredStyleElem) {
           this.#checkeredStyleElem = document.createElement("style");
           this.#checkeredStyleElem.textContent = checkeredStyleText;
@@ -59,32 +69,38 @@ export class ScrambleDisplay extends HTMLElement {
         this.#shadow.removeChild(this.#checkeredStyleElem)
       }
     }
-    if (this.attributeChanged("event") || this.attributeChanged("visualization")) {
+    // TODO: Avoid false positives if event changed from `null` to (explicit) default value.
+    if (!this.#hasRendered || this.attributeChanged("event") || this.attributeChanged("visualization")) {
       // TODO: validate new values.
-      this.#currentAttributes.event = (this.getAttribute("event") ?? "333") as EventID;
-      this.#currentAttributes.visualization = (this.getAttribute("visualization") ?? "2D") as Visualization;
-      this.#currentAttributes.scramble = (this.getAttribute("scramble")) as string;
+      this.#currentAttributes.event = this.getAttribute("event");
+      const event: EventID = (this.#currentAttributes.event ?? "333") as EventID;
+      this.#currentAttributes.visualization = this.getAttribute("visualization");
+      const visualization: Visualization = (this.#currentAttributes.visualization ?? "2D") as Visualization;
+      this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
+      const scramble = this.#currentAttributes.scramble;
 
-      switch (this.#currentAttributes.visualization) {
+      switch (visualization) {
         case "3D":
-          if (PG3DScrambleView.eventImplemented(this.#currentAttributes.event)) {
-            this.setScrambleView(new PG3DScrambleView(this.#currentAttributes.event), this.#currentAttributes.scramble);
-          } else if (this.#currentAttributes.event === "333") {
-            this.setScrambleView(new Cube3DScrambleView(), this.#currentAttributes.scramble);
+          if (PG3DScrambleView.eventImplemented(event)) {
+            this.setScrambleView(new PG3DScrambleView(event), scramble);
+          } else if (event === "333") {
+            this.setScrambleView(new Cube3DScrambleView(), scramble);
           } else {
-            console.warn(`3D view is not implemented for this event yet (${this.#currentAttributes.event}). Falling back to 2D.`);
-            this.render2D();
+            console.warn(`3D view is not implemented for this event yet (${event}). Falling back to 2D.`);
+            this.render2D(event, scramble);
           }
           break;
         case "2D":
         default:
-          this.render2D();
+          this.render2D(event, scramble);
       }
+      this.#hasRendered = true;
     } else {
       if (this.attributeChanged("scramble")) {
-        this.#currentAttributes.scramble = this.getAttribute("scramble") ?? "";
-        if (this.#currentAttributes.scramble) {
-          this.setScramble(this.#currentAttributes.scramble);
+        this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
+        const scramble = this.#currentAttributes.scramble;
+        if (scramble) {
+          this.setScramble(scramble);
         } else {
           this.#scrambleView.resetScramble();
         }
@@ -93,20 +109,16 @@ export class ScrambleDisplay extends HTMLElement {
   }
 
   // We break out the 2D implementation so that the 3D implementation can call it as a fallback without overly clever break/continue hacks.
-  private render2D(): void {
-    if (!this.#currentAttributes.event) {
-      this.clearScrambleView();
-      throw new Error("Unspecified event.");
-    }
-    if (SVGPGScrambleView.eventImplemented(this.#currentAttributes.event)) {
-      const svgPGView = new SVGPGScrambleView(this.#currentAttributes.event);
-      this.setScrambleView(svgPGView, this.#currentAttributes.scramble);
-    } else if (SVG2DView.eventImplemented(this.#currentAttributes.event)) {
-      const svg2DView = new SVG2DView(this.#currentAttributes.event);
-      this.setScrambleView(svg2DView, this.#currentAttributes.scramble);
+  private render2D(event: EventID, scramble: string): void {
+    if (SVGPGScrambleView.eventImplemented(event)) {
+      const svgPGView = new SVGPGScrambleView(event);
+      this.setScrambleView(svgPGView, scramble);
+    } else if (SVG2DView.eventImplemented(event)) {
+      const svg2DView = new SVG2DView(event);
+      this.setScrambleView(svg2DView, scramble);
     } else {
       this.clearScrambleView();
-      throw new Error(`2D view is not implemented for this event (${this.#currentAttributes.event}).`);
+      throw new Error(`2D view is not implemented for this event (${event}).`);
     }
   }
 
@@ -130,6 +142,7 @@ export class ScrambleDisplay extends HTMLElement {
         this.#invalidScrambleStyleElem = document.createElement("style");
         this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
       }
+      debugger;
       this.#shadow.appendChild(this.#invalidScrambleStyleElem);
     }
     this.#wrapper.setAttribute("title", s);

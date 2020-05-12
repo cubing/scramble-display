@@ -113,11 +113,11 @@ export class ScrambleDisplay extends HTMLElement {
   public get event(): EventID | null { return this.getAttribute("event") as EventID | null; }
   public get scramble(): string | null { return this.getAttribute("scramble"); }
   public get visualization(): Visualization | null { return this.getAttribute("visualization") as Visualization | null; }
-  public get checkered(): boolean | null { return this.getAttribute("checkered") as boolean | null; }
+  public get checkered(): boolean { return this.getAttribute("checkered") !== null; }
   public set event(s: EventID | null) { s ? this.setAttribute("event", s) : this.removeAttribute("event"); }
   public set scramble(s: string | null) { s ? this.setAttribute("scramble", s) : this.removeAttribute("scramble"); }
   public set visualization(s: Visualization | null) { s ? this.setAttribute("visualization", s) : this.removeAttribute("visualization"); }
-  public set checkered(s: boolean | null) { s ? this.setAttribute("checkered", s.toString()) : this.removeAttribute("checkered"); }
+  public set checkered(s: boolean) { s ? this.setAttribute("checkered", "") : this.removeAttribute("checkered"); }
 
   private setScramble(s: string): void {
     try {

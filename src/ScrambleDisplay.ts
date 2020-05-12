@@ -3,7 +3,7 @@ import { EventID } from "./events";
 import { SVG2DView } from "./scramble-view/SVG2DScrambleView";
 import { ScrambleView } from "./scramble-view/ScrambleView";
 import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
-import { styleText, checkeredStyleText, invalidScrambleStyleText } from "./css";
+import { mainStyleText, checkeredStyleText, invalidScrambleStyleText } from "./css";
 import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
 import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
 
@@ -39,7 +39,7 @@ export class ScrambleDisplay extends HTMLElement {
 
     // TODO: change style depending on event/view type?
     const style = document.createElement("style");
-    style.textContent = styleText;
+    style.textContent = mainStyleText;
     this.#shadow.appendChild(style);
   }
 

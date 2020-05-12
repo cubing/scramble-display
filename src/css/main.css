@@ -1,6 +1,3 @@
-// TODO: Move these into separate files (currently broken).
-
-export const styleText = `
 :host {
   width: 256px;
   height: 192px;
@@ -110,59 +107,3 @@ twisty player ksolve-svg-view .svg-wrapper svg {
 cube3d-wrapper.back {
   display: none;
 }
-
-/*
-twisty {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100%;
-  overflow: hidden;
-}
-
-twisty cube3d-wrapper {
-  contain: content;
-}
-
-twisty > player {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100%;
-  overflow: hidden;
-}
-
-twisty cube3d-view, twisty cube3d-wrapper {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  contain: content;
-}*/
-`;
-
-export const checkeredStyleText = `
-:host {
-  background-color: #EAEAEA;
-  background-image: linear-gradient(45deg, #DDD 25%, transparent 25%, transparent 75%, #DDD 75%, #DDD),
-    linear-gradient(45deg, #DDD 25%, transparent 25%, transparent 75%, #DDD 75%, #DDD);
-  background-size: 32px 32px;
-  background-position: 0 0, 16px 16px;
-}
-`;
-
-export const invalidScrambleStyleText = `
-:host {
-  background-size: auto !important;
-  background-color: red !important;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 1em,
-    rgba(0, 0, 0, 0.2) 1em,
-    rgba(0, 0, 0, 0.2) 2em
-  ) !important;
-  opacity: 0.5 !important;
-}
-`;

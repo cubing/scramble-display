@@ -14,8 +14,7 @@
   "author": "Lucas Garron <code@garron.net>",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "cubing": "^0.10.4",
-    "parcel-transformer-pegjs": "^1.0.1"
+    "cubing": "^0.10.4"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
@@ -25,6 +24,7 @@
     "@babel/preset-typescript": "^7.9.0",
     "@types/node": "^13.13.5",
     "parcel": "^2.0.0-nightly.259",
+    "parcel-transformer-pegjs": "^1.0.1",
     "typescript": "^3.8.3"
   }
 }

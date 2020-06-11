@@ -1,0 +1,33 @@
+body {
+  /* From https://leaverou.github.io/css3patterns/#seigaiha */
+  background-color:#ecf7ff;
+  background-image:
+    radial-gradient(circle at 100% 150%, #ecf7ff 24%, white 24%, white 28%, #ecf7ff 28%, #ecf7ff 36%, white 36%, white 40%, transparent 40%, transparent),
+    radial-gradient(circle at 0    150%, #ecf7ff 24%, white 24%, white 28%, #ecf7ff 28%, #ecf7ff 36%, white 36%, white 40%, transparent 40%, transparent),
+    radial-gradient(circle at 50%  100%, white 10%, #ecf7ff 10%, #ecf7ff 23%, white 23%, white 30%, #ecf7ff 30%, #ecf7ff 43%, white 43%, white 50%, #ecf7ff 50%, #ecf7ff 63%, white 63%, white 71%, transparent 71%, transparent),
+    radial-gradient(circle at 100% 50%, white 5%, #ecf7ff 5%, #ecf7ff 15%, white 15%, white 20%, #ecf7ff 20%, #ecf7ff 29%, white 29%, white 34%, #ecf7ff 34%, #ecf7ff 44%, white 44%, white 49%, transparent 49%, transparent),
+    radial-gradient(circle at 0    50%, white 5%, #ecf7ff 5%, #ecf7ff 15%, white 15%, white 20%, #ecf7ff 20%, #ecf7ff 29%, white 29%, white 34%, #ecf7ff 34%, #ecf7ff 44%, white 44%, white 49%, transparent 49%, transparent);
+  background-size: 100px 50px;
+  margin: 0;
+  padding: 1em;
+}
+
+.header h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+#examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  place-content: space-around space-around;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+scramble-display {
+  width: 100%;
+  height: 192px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}

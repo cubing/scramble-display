@@ -2,13 +2,19 @@
   "name": "scramble-display",
   "version": "0.1.0",
   "description": "A library to display puzzle scrambles.",
-  "main": "dist/scramble-display.js",
-  "types": "dist/scramble-display.d.ts",
   "repository": "github:cubing/scramble-display",
+  "types": "dist/scramble-display.d.ts",
+  "main": "dist/scramble-display.node.js",
+  "module": "dist/scramble-display.module.js",
+  "browser": "dist/scramble-display.browser.js",
   "scripts": {
-    "build": "npx parcel build --public-url ./ src/index.ts",
-    "dev": "npx parcel serve test/index.html src/index.ts",
-    "clean": "rm -rf dist .parcel-cache",
+    "build": "npm run build-types && npm run build-main && npm run build-module && npm run build-browser",
+    "build-types": "npx parcel build --target types src/targets/types.ts",
+    "build-main": "npx parcel build --target main src/targets/main.ts",
+    "build-module": "npx parcel build --target module src/targets/module.ts",
+    "build-browser": "npx parcel build --target browser src/targets/browser.ts",
+    "dev": "npx parcel serve src/targets/dev/index.html",
+    "clean": "rm -rf ./.parcel-cache ./dist",
     "prepack": "npm run clean && npm run build"
   },
   "author": "Lucas Garron <code@garron.net>",
@@ -17,14 +23,20 @@
     "cubing": "^0.10.4"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@babel/plugin-proposal-private-methods": "^7.8.3",
-    "@babel/preset-typescript": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.10.1",
+    "@babel/plugin-proposal-private-methods": "^7.10.1",
+    "@babel/preset-typescript": "^7.10.1",
     "@types/node": "^13.13.5",
     "parcel": "^2.0.0-nightly.259",
     "parcel-transformer-pegjs": "^1.0.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.5"
+  },
+  "targets": {
+    "module": {},
+    "browser": {
+      "includeNodeModules": true
+    }
   }
 }

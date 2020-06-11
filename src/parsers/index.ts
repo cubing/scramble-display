@@ -1,5 +1,4 @@
-import { parse as algParse } from "cubing/alg";
-import { Sequence } from "cubing/dist/esm/src/alg";
+import { parse as algParse, Sequence } from "cubing/alg";
 import { EventID } from "../events";
 import { clockParse } from "./clock";
 import { megaminxWCAParse } from "./megaminx-wca";

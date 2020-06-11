@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
+    "target": "es2015",
     "moduleResolution": "node",
-    "target": "es2015"
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true
   }
 }

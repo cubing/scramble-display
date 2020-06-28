@@ -5,7 +5,9 @@ NUMBER = zero:"0" { return 0; } /
 
 WHITESPACE = characters:" "
 
-U_D_MOVE_LIST = "(" uAmount:NUMBER "," WHITESPACE dAmount:NUMBER ")" { return [{type: "blockMove", family: "U", amount: uAmount}, {type: "blockMove", family: "D", amount: dAmount}]; }
+OPTIONAL_WHITESPACE = WHITESPACE / ""
+
+U_D_MOVE_LIST = "(" uAmount:NUMBER "," OPTIONAL_WHITESPACE dAmount:NUMBER ")" { return [{type: "blockMove", family: "U", amount: uAmount}, {type: "blockMove", family: "D", amount: dAmount}]; }
 
 SLICE_MOVE_LIST = "/" { return [{type: "blockMove", family: "SLICE", amount: 1}]; }
 

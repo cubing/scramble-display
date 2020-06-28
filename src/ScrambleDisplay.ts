@@ -6,8 +6,13 @@ import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
 import { mainStyleText, checkeredStyleText, invalidScrambleStyleText } from "./css";
 import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
 import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
+import { algToString, parse } from "cubing/alg";
+import { wideMovesToSiGN } from "./3x3x3-wide-moves";
 
 export type Visualization = "2D" | "3D";
+
+const CUBE_333: EventID = "333";
+const DEFAULT_EVENT: EventID = CUBE_333;
 
 export type ScrambleDisplayAttributes = {
   event?: EventID,
@@ -73,7 +78,7 @@ export class ScrambleDisplay extends HTMLElement {
     if (!this.#hasRendered || this.attributeChanged("event") || this.attributeChanged("visualization")) {
       // TODO: validate new values.
       this.#currentAttributes.event = this.getAttribute("event");
-      const event: EventID = (this.#currentAttributes.event ?? "333") as EventID;
+      const event: EventID = (this.#currentAttributes.event ?? DEFAULT_EVENT) as EventID;
       this.#currentAttributes.visualization = this.getAttribute("visualization");
       const visualization: Visualization = (this.#currentAttributes.visualization ?? "2D") as Visualization;
       this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
@@ -83,7 +88,7 @@ export class ScrambleDisplay extends HTMLElement {
         case "3D":
           if (PG3DScrambleView.eventImplemented(event)) {
             this.setScrambleView(new PG3DScrambleView(event), scramble);
-          } else if (event === "333") {
+          } else if (event === CUBE_333) {
             this.setScrambleView(new Cube3DScrambleView(), scramble);
           } else {
             console.warn(`3D view is not implemented for this event yet (${event}). Falling back to 2D.`);
@@ -132,8 +137,10 @@ export class ScrambleDisplay extends HTMLElement {
   public set checkered(s: boolean) { s ? this.setAttribute("checkered", "") : this.removeAttribute("checkered"); }
 
   private setScramble(s: string): void {
+    // TODO: Dedup this calculation with `render`.
+    const rewrittenScramble = (this.#currentAttributes.event ?? DEFAULT_EVENT).startsWith(CUBE_333) ? algToString(wideMovesToSiGN(parse(s))) : s; // TODO
     try {
-      this.#scrambleView.setScramble(s);
+      this.#scrambleView.setScramble(rewrittenScramble);
       if (this.#shadow.contains(this.#invalidScrambleStyleElem)) {
         this.#shadow.removeChild(this.#invalidScrambleStyleElem)
       }
@@ -142,7 +149,6 @@ export class ScrambleDisplay extends HTMLElement {
         this.#invalidScrambleStyleElem = document.createElement("style");
         this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
       }
-      debugger;
       this.#shadow.appendChild(this.#invalidScrambleStyleElem);
     }
     this.#wrapper.setAttribute("title", s);

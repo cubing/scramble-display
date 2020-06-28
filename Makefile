@@ -21,7 +21,7 @@ URL       = "https://experiments.cubing.net/scramble-display/"
 deploy: 
 	@echo "Bundling during building is not working. Use this:"
 	@echo ""
-	@echo make clean
+	@echo make clean build
 	@echo npx parcel serve --no-hmr --no-source-maps test/index.html
 	@echo "[Ctrl-C to interrupt Parcel once it's finished the initial build]"
 	@echo ""

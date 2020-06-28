@@ -41,7 +41,7 @@ export class SVG2DView implements ScrambleView {
   }
 
   private static svgID(eventID: EventID): string | undefined {
-    return eventInfo[eventID].svgID;
+    return eventInfo[eventID]?.svgID;
   }
 
   public static eventImplemented(eventID: EventID): boolean {

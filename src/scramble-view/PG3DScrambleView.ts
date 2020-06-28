@@ -53,7 +53,7 @@ export class PG3DScrambleView {
   }
 
   private static pg3dID(eventID: EventID): string | undefined {
-    return eventInfo[eventID].pg3dID;
+    return eventInfo[eventID]?.pg3dID;
   }
 
   public static eventImplemented(eventID: EventID): boolean {

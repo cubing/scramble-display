@@ -40,7 +40,7 @@ export class SVGPGScrambleView implements ScrambleView {
   }
 
   private static svgPGID(eventID: EventID): string | undefined {
-    return eventInfo[eventID].svgPGID;
+    return eventInfo[eventID]?.svgPGID;
   }
 
   public static eventImplemented(eventID: EventID): boolean {

@@ -1,6 +1,6 @@
 {
   "name": "scramble-display",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A library to display puzzle scrambles.",
   "repository": "github:cubing/scramble-display",
   "types": "dist/scramble-display.d.ts",

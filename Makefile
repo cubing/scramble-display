@@ -14,11 +14,11 @@ DYNAMIC_NPM_COMMANDS = $(shell cat package.json | npx jq --raw-output ".scripts 
 update-Makefile:
 	sed -i "" "s/^NPM_COMMANDS = .*$$/NPM_COMMANDS = ${DYNAMIC_NPM_COMMANDS}/" Makefile
 
-SFTP_PATH = "towns.dreamhost.com:~/experiments.cubing.net/scramble-display/"
-URL       = "https://experiments.cubing.net/scramble-display/"
+SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/"
+URL       = "https://cdn.cubing.net/js/scramble-display/latest/"
 
 .PHONY: deploy
-deploy: 
+deploy: clean build
 	@echo "Bundling during building is not working. Use this:"
 	@echo ""
 	@echo make clean build

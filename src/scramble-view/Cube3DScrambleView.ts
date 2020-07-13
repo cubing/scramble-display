@@ -25,4 +25,8 @@ export class Cube3DScrambleView implements ScrambleView {
       throw new Error("invalid scramble");
     }
   }
+
+  public setCheckered(checkered: boolean): void {
+    this.twisty.experimentalGetPlayer().experimentalSetCheckered(checkered);
+  }
 }

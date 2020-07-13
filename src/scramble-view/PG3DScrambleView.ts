@@ -57,5 +57,9 @@ export class PG3DScrambleView {
   public static eventImplemented(eventID: EventID): boolean {
     return !!this.pg3dID(eventID);
   }
+
+  public setCheckered(checkered: boolean): void {
+    this.twisty.experimentalGetPlayer().experimentalSetCheckered(checkered);
+  }
 }
 

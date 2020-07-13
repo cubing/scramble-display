@@ -1,13 +1,12 @@
-import { EventID } from "./events";
-
-import { SVG2DScrambleView } from "./scramble-view/SVG2DScrambleView";
-import { ScrambleView } from "./scramble-view/ScrambleView";
-import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
-import { mainStyleText, checkeredStyleText, invalidScrambleStyleText } from "./css";
-import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
-import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
 import { algToString, parse } from "cubing/alg";
 import { wideMovesToSiGN } from "./3x3x3-wide-moves";
+import { invalidScrambleStyleText, mainStyleText } from "./css";
+import { EventID } from "./events";
+import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
+import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
+import { ScrambleView } from "./scramble-view/ScrambleView";
+import { SVG2DScrambleView } from "./scramble-view/SVG2DScrambleView";
+import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
 
 export type Visualization = "2D" | "3D";
 
@@ -37,7 +36,6 @@ export class ScrambleDisplay extends HTMLElement {
     visualization: null,
     checkered: null,
   }
-  #checkeredStyleElem: HTMLStyleElement;
   #invalidScrambleStyleElem: HTMLStyleElement;
   #scrambleView: ScrambleView;
   #hasRendered: boolean = false;
@@ -61,19 +59,6 @@ export class ScrambleDisplay extends HTMLElement {
   }
 
   private render(): void {
-    if (this.attributeChanged("checkered")) {
-      this.#currentAttributes.checkered = this.getAttribute("checkered");
-      const checkered = this.#currentAttributes.checkered !== null;
-      if (checkered) {
-        if (!this.#checkeredStyleElem) {
-          this.#checkeredStyleElem = document.createElement("style");
-          this.#checkeredStyleElem.textContent = checkeredStyleText;
-        }
-        this.#shadow.appendChild(this.#checkeredStyleElem);
-      } else if (this.#shadow.contains(this.#checkeredStyleElem)) {
-        this.#shadow.removeChild(this.#checkeredStyleElem)
-      }
-    }
     // TODO: Avoid false positives if event changed from `null` to (explicit) default value.
     if (!this.#hasRendered || this.attributeChanged("event") || this.attributeChanged("visualization")) {
       // TODO: validate new values.
@@ -83,6 +68,8 @@ export class ScrambleDisplay extends HTMLElement {
       const visualization: Visualization = (this.#currentAttributes.visualization ?? "2D") as Visualization;
       this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
       const scramble = this.#currentAttributes.scramble;
+      this.#currentAttributes.checkered = this.getAttribute("checkered");
+      const checkered = this.#currentAttributes.checkered !== null;
 
       switch (visualization) {
         case "3D":
@@ -99,6 +86,11 @@ export class ScrambleDisplay extends HTMLElement {
         default:
           this.render2D(event, scramble);
       }
+
+      if ((this.#invalidScrambleStyleElem === null || !this.#shadow.contains(this.#invalidScrambleStyleElem))) {
+        this.#scrambleView.setCheckered(checkered);
+      }
+
       this.#hasRendered = true;
     } else {
       if (this.attributeChanged("scramble")) {
@@ -109,6 +101,11 @@ export class ScrambleDisplay extends HTMLElement {
         } else {
           this.#scrambleView.resetScramble();
         }
+      }
+      if (this.attributeChanged("checkered") && (this.#invalidScrambleStyleElem === null || !this.#shadow.contains(this.#invalidScrambleStyleElem)) ){
+        this.#currentAttributes.checkered = this.getAttribute("checkered");
+        const checkered = this.#currentAttributes.checkered !== null;
+        this.#scrambleView.setCheckered(checkered);
       }
     }
   }
@@ -143,6 +140,8 @@ export class ScrambleDisplay extends HTMLElement {
       this.#scrambleView.setScramble(rewrittenScramble);
       if (this.#shadow.contains(this.#invalidScrambleStyleElem)) {
         this.#shadow.removeChild(this.#invalidScrambleStyleElem)
+        // TODO: Use a model that automatically lets the invalid scramble elem override the checkered child bg.
+        this.#scrambleView.setCheckered(this.#currentAttributes.checkered !== null);
       }
     } catch (e) {
       if (!this.#invalidScrambleStyleElem) {
@@ -150,6 +149,7 @@ export class ScrambleDisplay extends HTMLElement {
         this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
       }
       this.#shadow.appendChild(this.#invalidScrambleStyleElem);
+      this.#scrambleView.setCheckered(false);
     }
     this.#wrapper.setAttribute("title", s);
   }
@@ -161,7 +161,7 @@ export class ScrambleDisplay extends HTMLElement {
     this.#wrapper.removeAttribute("title");
   }
 
-  private setScrambleView(scrambleView: ScrambleView, scramble?: string): void {
+  private setScrambleView(scrambleView: ScrambleView, scramble?: string, checkered?: boolean): void {
     this.clearScrambleView();
     this.#scrambleView = scrambleView;
     this.#wrapper.appendChild(scrambleView.element);
@@ -169,6 +169,8 @@ export class ScrambleDisplay extends HTMLElement {
     if (scramble) {
       this.setScramble(scramble);
     }
+
+    this.#scrambleView.setCheckered(checkered ?? false);
   }
 
   protected connectedCallback() {

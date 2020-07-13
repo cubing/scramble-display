@@ -47,4 +47,8 @@ export class SVG2DScrambleView implements ScrambleView {
   public static eventImplemented(eventID: EventID): boolean {
     return !!this.svgID(eventID);
   }
+
+  public setCheckered(checkered: boolean): void {
+    this.element.classList.toggle("checkered", checkered);
+  }
 }

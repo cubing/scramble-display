@@ -1,20 +1,18 @@
 import { Sequence } from "cubing/alg";
-import { Twisty, TwistyParams } from "cubing/twisty";
+import { TwistyParams, TwistyPlayer } from "cubing/twisty";
 import { EventID, eventInfo } from "../events";
 import { parseForEvent } from "../parsers";
 import { puzzles } from "./vendor/DisplayablePG3D";
 
 export class PG3DScrambleView {
   public element: HTMLElement;
-  private twisty: Twisty;
+  private twisty: TwistyPlayer;
   constructor(private eventID: EventID) {
     const pgID = eventInfo[eventID].pg3dID;
     if (!pgID) {
       throw "Unknown PG3D puzzle.";
     }
     const displayablePuzzle = puzzles[pgID];
-
-    this.element = document.createElement("twisty");
 
     const twistyParams: TwistyParams = {
       alg: new Sequence([]),
@@ -37,7 +35,7 @@ export class PG3DScrambleView {
       default:
         throw new Error("Not a displayable puzzle type.");
     }
-    this.twisty = new Twisty(this.element, twistyParams);
+    this.element = this.twisty = new TwistyPlayer(twistyParams);
   }
 
   public resetScramble(): void {

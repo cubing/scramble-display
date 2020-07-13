@@ -3,7 +3,7 @@ import { EventID, eventInfo } from "../events";
 import { parseForEvent } from "../parsers";
 import { ScrambleView } from "./ScrambleView";
 
-export class SVG2DView implements ScrambleView {
+export class SVG2DScrambleView implements ScrambleView {
   private svg: SVG;
   private definition: KPuzzleDefinition;
   private kpuzzle: KPuzzle;

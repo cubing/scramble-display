@@ -1,6 +1,6 @@
 import { EventID } from "./events";
 
-import { SVG2DView } from "./scramble-view/SVG2DScrambleView";
+import { SVG2DScrambleView } from "./scramble-view/SVG2DScrambleView";
 import { ScrambleView } from "./scramble-view/ScrambleView";
 import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
 import { mainStyleText, checkeredStyleText, invalidScrambleStyleText } from "./css";
@@ -118,8 +118,8 @@ export class ScrambleDisplay extends HTMLElement {
     if (SVGPGScrambleView.eventImplemented(event)) {
       const svgPGView = new SVGPGScrambleView(event);
       this.setScrambleView(svgPGView, scramble);
-    } else if (SVG2DView.eventImplemented(event)) {
-      const svg2DView = new SVG2DView(event);
+    } else if (SVG2DScrambleView.eventImplemented(event)) {
+      const svg2DView = new SVG2DScrambleView(event);
       this.setScrambleView(svg2DView, scramble);
     } else {
       this.clearScrambleView();

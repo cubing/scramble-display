@@ -22,20 +22,15 @@ URL       = "https://cdn.cubing.net/js/scramble-display/latest/"
 publish:
 	npm publish
 
-.PHONY: deploy
-deploy: clean build
-	@echo "Bundling during building is not working. Use this:"
-	@echo ""
-	@echo make clean build
-	@echo npx parcel serve --no-hmr --no-source-maps test/index.html
-	@echo "[Ctrl-C to interrupt Parcel once it's finished the initial build]"
-	@echo ""
-	@echo npx terser --compress --mangle -o dist/scramble-display.browser.js dist/scramble-display.????????.js
-	@echo ""
+SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/scramble-display.browser.js"
+URL       = "https://https://experiments.cubing.net/scramble-display/"
 
-# rsync -avz \
-# 	--exclude .DS_Store \
-# 	--exclude .git \
-# 	./dist/ \
-# 	${SFTP_PATH}
-# echo "\nDone deploying. Go to ${URL}\n"
+.PHONY: deploy
+deploy: clean build-browser-global
+	# Single file
+	rsync -avz \
+		--exclude .DS_Store \
+		--exclude .git \
+		./dist/scramble-display.browser-global.js \
+		${SFTP_PATH}
+	echo "\nDone deploying. Go to ${URL}\n"

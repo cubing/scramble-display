@@ -107,7 +107,7 @@ export class ScrambleDisplay extends HTMLElement {
         this.#invalidScrambleStyleElem === null ||
         !this.#shadow.contains(this.#invalidScrambleStyleElem)
       ) {
-        this.#scrambleView.setCheckered(checkered);
+        this.#scrambleView?.setCheckered(checkered);
       }
 
       this.#hasRendered = true;

@@ -20,7 +20,7 @@ export class Cube3DScrambleView implements ScrambleView {
     try {
       const seq = parse(s);
       this.twisty.alg = seq;
-      this.twisty.timeline.jumpToEnd();
+      this.twisty.timeline?.jumpToEnd();
     } catch (e) {
       throw new Error("invalid scramble");
     }

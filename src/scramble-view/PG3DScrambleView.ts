@@ -50,7 +50,7 @@ export class PG3DScrambleView {
   public setScramble(scramble: string): void {
     try {
       this.twisty.alg = parseForEvent(this.eventID, scramble);
-      this.twisty.timeline.jumpToEnd();
+      this.twisty.timeline?.jumpToEnd();
     } catch (e) {
       throw new Error("invalid scramble");
     }

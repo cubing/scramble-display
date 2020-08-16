@@ -5,28 +5,28 @@ import { parse, Sequence } from "cubing/alg";
 export class Cube3DScrambleView implements ScrambleView {
   public element: HTMLElement;
   private twisty: TwistyPlayer;
-  constructor() {
+  constructor(scramble: string = "") {
     this.element = this.twisty = new TwistyPlayer({
-      playerConfig: {
-        experimentalShowControls: false
-      }
+      controls: "none",
+      alg: parse("R U R'"),
     });
   }
 
   public resetScramble(): void {
-    this.twisty.experimentalSetAlg(new Sequence([]));
+    this.twisty.alg = new Sequence([]);
   }
 
   public setScramble(s: string): void {
     try {
       const seq = parse(s);
-      this.twisty.experimentalSetAlg(seq);
+      this.twisty.alg = seq;
+      this.twisty.timeline.jumpToEnd();
     } catch (e) {
       throw new Error("invalid scramble");
     }
   }
 
   public setCheckered(checkered: boolean): void {
-    this.twisty.experimentalGetPlayer().experimentalSetCheckered(checkered);
+    this.twisty.background = checkered ? "checkered" : "none";
   }
 }

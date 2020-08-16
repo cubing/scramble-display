@@ -1,8 +1,9 @@
 import { Sequence } from "cubing/alg";
-import { TwistyParams, TwistyPlayer } from "cubing/twisty";
+import { TwistyPlayer, TwistyPlayerInitialConfig } from "cubing/twisty";
 import { EventID, eventInfo } from "../events";
 import { parseForEvent } from "../parsers";
 import { puzzles } from "./vendor/DisplayablePG3D";
+import { LegacyExperimentalPG3DViewConfig } from "cubing/dist/esm/src/twisty/dom/TwistyPlayer";
 
 export class PG3DScrambleView {
   public element: HTMLElement;
@@ -14,37 +15,42 @@ export class PG3DScrambleView {
     }
     const displayablePuzzle = puzzles[pgID];
 
-    const twistyParams: TwistyParams = {
+    const twistyParams: TwistyPlayerInitialConfig = {
       alg: new Sequence([]),
     };
-    twistyParams.puzzle = displayablePuzzle.kpuzzleDefinition();
+    let legacyExperimentalPG3DViewConfig:
+      | LegacyExperimentalPG3DViewConfig
+      | undefined = undefined;
     switch (displayablePuzzle.type) {
       case "kpuzzle": // TODO
         break;
       case "pg3d":
-        twistyParams.playerConfig = {
-          visualizationFormat: "PG3D",
-          experimentalShowControls: false,
-          experimentalPG3DViewConfig: {
-            experimentalPolarVantages: displayablePuzzle.polarVantages,
-            stickerDat: displayablePuzzle.stickerDat(),
-            showFoundation: true,
-          },
+        twistyParams.puzzle = "custom";
+        twistyParams.visualization = "PG3D";
+        twistyParams.controls = "none";
+        legacyExperimentalPG3DViewConfig = {
+          def: displayablePuzzle.kpuzzleDefinition(),
+          stickerDat: displayablePuzzle.stickerDat(),
+          showFoundation: true,
         };
         break;
       default:
         throw new Error("Not a displayable puzzle type.");
     }
-    this.element = this.twisty = new TwistyPlayer(twistyParams);
+    this.element = this.twisty = new TwistyPlayer(
+      twistyParams,
+      legacyExperimentalPG3DViewConfig
+    );
   }
 
   public resetScramble(): void {
-    this.twisty.experimentalSetAlg(new Sequence([]));
+    this.twisty.alg = new Sequence([]);
   }
 
   public setScramble(scramble: string): void {
     try {
-      this.twisty.experimentalSetAlg(parseForEvent(this.eventID, scramble));
+      this.twisty.alg = parseForEvent(this.eventID, scramble);
+      this.twisty.timeline.jumpToEnd();
     } catch (e) {
       throw new Error("invalid scramble");
     }
@@ -59,7 +65,6 @@ export class PG3DScrambleView {
   }
 
   public setCheckered(checkered: boolean): void {
-    this.twisty.experimentalGetPlayer().experimentalSetCheckered(checkered);
+    this.twisty.background = checkered ? "checkered" : "none";
   }
 }
-

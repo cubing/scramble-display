@@ -17,6 +17,11 @@ update-Makefile:
 SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/"
 URL       = "https://cdn.cubing.net/js/scramble-display/latest/"
 
+# This is not in `scripts` in `package.json`, because that would cause a double-build.
+.PHONY: publish
+publish:
+	npm publish
+
 .PHONY: deploy
 deploy: clean build
 	@echo "Bundling during building is not working. Use this:"

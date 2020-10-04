@@ -1,4 +1,5 @@
 import { algToString, parse } from "cubing/alg";
+import { experimentalSetShareAllNewRenderers } from "cubing/twisty";
 import { wideMovesToSiGN } from "./3x3x3-wide-moves";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
 import { EventID } from "./events";
@@ -7,6 +8,8 @@ import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
 import { ScrambleView } from "./scramble-view/ScrambleView";
 import { SVG2DScrambleView } from "./scramble-view/SVG2DScrambleView";
 import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
+
+experimentalSetShareAllNewRenderers(true);
 
 export type Visualization = "2D" | "3D";
 

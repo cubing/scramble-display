@@ -23,7 +23,7 @@ publish:
 	npm publish
 
 SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/scramble-display.browser.js"
-URL       = "https://https://experiments.cubing.net/scramble-display/"
+URL       = "https://experiments.cubing.net/scramble-display/"
 
 .PHONY: deploy
 deploy: clean build-browser-global

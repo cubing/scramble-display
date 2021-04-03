@@ -1,3 +1,3 @@
-import { Sequence } from "cubing/alg";
+import { SequenceJSON } from "./sequence-json";
 
-export function clockParse(s: string): Sequence;
+export function clockParse(s: string): SequenceJSON;

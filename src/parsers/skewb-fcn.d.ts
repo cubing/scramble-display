@@ -1,3 +1,3 @@
-import { Sequence } from "cubing/alg";
+import { SequenceJSON } from "./sequence-json";
 
-export function skewbFCNParse(s: string): Sequence;
+export function skewbFCNParse(s: string): SequenceJSON;

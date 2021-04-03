@@ -1,3 +1,3 @@
-import { Sequence } from "cubing/alg";
+import { SequenceJSON } from "./sequence-json";
 
-export function megaminxWCAParse(s: string): Sequence;
+export function megaminxWCAParse(s: string): SequenceJSON;

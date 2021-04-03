@@ -2,12 +2,13 @@ import { Alg, AlgBuilder, Move, QuantumMove } from "cubing/alg";
 import { EventID } from "../events";
 import { clockParse } from "./clock";
 import { megaminxWCAParse } from "./megaminx-wca";
+import { SequenceJSON } from "./sequence-json";
 import { skewbFCNParse } from "./skewb-fcn";
 import { sq1Parse } from "./sq1";
 
-function jsonToAlg(json: any): Alg {
+function jsonToAlg(sequenceJSON: SequenceJSON): Alg {
   const algBuilder = new AlgBuilder();
-  for (const unitJSON of json.nestedUnits) {
+  for (const unitJSON of sequenceJSON.nestedUnits) {
     if (unitJSON.type !== "blockMove") {
       throw new Error("invalid alg");
     }

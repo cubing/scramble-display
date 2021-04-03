@@ -14,15 +14,12 @@ DYNAMIC_NPM_COMMANDS = $(shell cat package.json | npx jq --raw-output ".scripts 
 update-Makefile:
 	sed -i "" "s/^NPM_COMMANDS = .*$$/NPM_COMMANDS = ${DYNAMIC_NPM_COMMANDS}/" Makefile
 
-SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/"
-URL       = "https://cdn.cubing.net/js/scramble-display/latest/"
-
 # This is not in `scripts` in `package.json`, because that would cause a double-build.
 .PHONY: publish
 publish:
 	npm publish
 
-SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/scramble-display.browser.js"
+SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/"
 URL       = "https://experiments.cubing.net/scramble-display/"
 
 .PHONY: deploy
@@ -31,6 +28,6 @@ deploy: clean build-browser-global
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \
-		./dist/scramble-display.browser-global.js \
+		./dist/ \
 		${SFTP_PATH}
 	echo "\nDone deploying. Go to ${URL}\n"

@@ -1,4 +1,5 @@
 import { Alg } from "cubing/alg";
+import { TimeRange } from "cubing/dist/types/twisty/animation/cursor/AlgCursor"; // TODO
 import {
   experimentalSetShareAllNewRenderers,
   TwistyPlayer,
@@ -55,8 +56,22 @@ export class ScrambleDisplay extends HTMLElement {
     style.textContent = mainStyleText;
     this.#shadow.appendChild(style);
 
+    this.newTwistyPlayer();
+  }
+
+  newTwistyPlayer(): void {
+    if (this.#twistyPlayer) {
+      this.#wrapper.removeChild(this.#twistyPlayer);
+    }
     this.#twistyPlayer = new TwistyPlayer({
       controlPanel: "none",
+      hintFacelets: "none",
+    });
+    this.#twistyPlayer.timeline.addTimestampListener({
+      onTimelineTimestampChange: () => {},
+      onTimeRangeChange: (_): void => {
+        this.#twistyPlayer.timeline.jumpToEnd(); // TODO: can we do this more directly?
+      },
     });
     this.#wrapper.appendChild(this.#twistyPlayer);
   }
@@ -84,16 +99,26 @@ export class ScrambleDisplay extends HTMLElement {
       this.#currentAttributes.visualization = this.getAttribute(
         "visualization"
       );
-      const visualization: Visualization = (this.#currentAttributes
+      let visualization: Visualization = (this.#currentAttributes
         .visualization ?? "2D") as Visualization;
       this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
       const scramble = this.#currentAttributes.scramble;
       this.#currentAttributes.checkered = this.getAttribute("checkered");
       const checkered = this.#currentAttributes.checkered !== null;
 
-      this.#twistyPlayer.puzzle = eventInfo[event].puzzleID as any;
+      if (eventInfo[event].only2D) {
+        visualization = "2D";
+      }
+
+      const puzzle = eventInfo[event].puzzleID;
+
+      if (this.#twistyPlayer.puzzle != puzzle) {
+        this.newTwistyPlayer();
+      }
+
       this.#twistyPlayer.visualization = visualization;
-      this.#twistyPlayer.alg = wideMovesToSiGN(parseForEvent(event, scramble));
+      this.#twistyPlayer.puzzle = puzzle as any;
+      this.setScramble(scramble.toString());
 
       if (
         this.#invalidScrambleStyleElem === null ||
@@ -154,13 +179,8 @@ export class ScrambleDisplay extends HTMLElement {
 
   private setScramble(s: string): void {
     // TODO: Dedup this calculation with `render`.
-    const rewrittenScramble = (
-      this.#currentAttributes.event ?? DEFAULT_EVENT
-    ).startsWith(CUBE_333)
-      ? wideMovesToSiGN(Alg.fromString(s))
-      : new Alg(s); // TODO
     try {
-      this.#twistyPlayer.alg = rewrittenScramble;
+      this.#twistyPlayer.alg = parseForEvent(this.event ?? DEFAULT_EVENT, s);
       if (this.#shadow.contains(this.#invalidScrambleStyleElem)) {
         this.#shadow.removeChild(this.#invalidScrambleStyleElem);
         // TODO: Use a model that automatically lets the invalid scramble elem override the checkered child bg.

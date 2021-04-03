@@ -1,21 +1,45 @@
-import { Alg } from "cubing/alg";
+import { Alg, AlgBuilder, Move, QuantumMove } from "cubing/alg";
+import { wideMovesToSiGN } from "../3x3x3-wide-moves";
 import { EventID } from "../events";
 import { clockParse } from "./clock";
 import { megaminxWCAParse } from "./megaminx-wca";
 import { skewbFCNParse } from "./skewb-fcn";
 import { sq1Parse } from "./sq1";
 
+function jsonToAlg(json: any): Alg {
+  const algBuilder = new AlgBuilder();
+  for (const unitJSON of json.nestedUnits) {
+    if (unitJSON.type !== "blockMove") {
+      throw new Error("invalid alg");
+    }
+    algBuilder.push(
+      new Move(
+        new QuantumMove(
+          unitJSON.family,
+          unitJSON.innerLayer,
+          unitJSON.outerLayer
+        ),
+        unitJSON.amount
+      )
+    );
+  }
+  return algBuilder.toAlg();
+}
+
 export function parseForEvent(eventID: EventID, s: string): Alg {
   switch (eventID) {
     case "clock":
-      return clockParse(s);
+      return jsonToAlg(clockParse(s));
     case "minx":
-      return megaminxWCAParse(s);
+      return jsonToAlg(megaminxWCAParse(s));
     case "skewb":
-      return skewbFCNParse(s);
+      return jsonToAlg(skewbFCNParse(s));
     case "sq1":
-      return sq1Parse(s);
+      return jsonToAlg(sq1Parse(s));
     default:
+      if (eventID.startsWith("333")) {
+        return wideMovesToSiGN(new Alg(s));
+      }
       return new Alg(s);
   }
 }

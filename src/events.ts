@@ -21,6 +21,7 @@ export type EventID =
 type EventInfoData = {
   name: string;
   puzzleID: string;
+  only2D?: boolean;
 };
 
 export const eventInfo: { [eventId: string]: EventInfoData } = {
@@ -63,6 +64,7 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   clock: {
     name: "Clock",
     puzzleID: "clock", // TODO: Proper clock notation.
+    only2D: true,
   },
   minx: {
     name: "Megaminx",
@@ -78,7 +80,8 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   },
   sq1: {
     name: "Square-1",
-    puzzleID: "sq1",
+    puzzleID: "square1",
+    only2D: true,
   },
   "444bf": {
     name: "4x4x4 Blindfolded",

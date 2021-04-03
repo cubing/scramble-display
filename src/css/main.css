@@ -1,13 +1,7 @@
-:host(scramble-display) {
-  width: 256px;
-  height: 192px;
-  contain: content;
-
+:host {
+  width: 384px;
+  height: 256px;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-
-  place-content: center;
 }
 
 .wrapper {
@@ -17,18 +11,13 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   place-content: center;
+  overflow: hidden;
 }
 
-.svg-wrapper {
-  place-content: center;
-  object-fit: fill;
-  position: relative;
-}
-
-.svg-wrapper svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.wrapper > * {
+  width: inherit;
+  height: inherit;
+  overflow: hidden;
 }
 
 twisty-player {
@@ -37,9 +26,23 @@ twisty-player {
 }
 
 .checkered {
-  background-color: #EAEAEA;
-  background-image: linear-gradient(45deg, #DDD 25%, transparent 25%, transparent 75%, #DDD 75%, #DDD),
-    linear-gradient(45deg, #DDD 25%, transparent 25%, transparent 75%, #DDD 75%, #DDD);
+  background-color: #eaeaea;
+  background-image: linear-gradient(
+      45deg,
+      #ddd 25%,
+      transparent 25%,
+      transparent 75%,
+      #ddd 75%,
+      #ddd
+    ),
+    linear-gradient(
+      45deg,
+      #ddd 25%,
+      transparent 25%,
+      transparent 75%,
+      #ddd 75%,
+      #ddd
+    );
   background-size: 32px 32px;
   background-position: 0 0, 16px 16px;
 }

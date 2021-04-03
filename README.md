@@ -86,7 +86,7 @@ scramble: null | string
 checkered: false (attribute not present) | true (attribute present)
 ```
 
-The default size of a `<scramble-display>` is `256px` by `192px`. Use CSS to set the `height` and `width` attributes if you'd like to use a different size, and use `resize` if you'd like to allow the user to resize the element, e.g.
+The default size of a `<scramble-display>` is `384px` by `256px`. Use CSS to set the `height` and `width` attributes if you'd like to use a different size, and use `resize` if you'd like to allow the user to resize the element, e.g.
 
 ```css
 <style>

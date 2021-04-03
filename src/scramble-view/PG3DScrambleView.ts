@@ -1,9 +1,8 @@
-import { Sequence } from "cubing/alg";
 import { TwistyPlayer, TwistyPlayerInitialConfig } from "cubing/twisty";
 import { EventID, eventInfo } from "../events";
 import { parseForEvent } from "../parsers";
 import { puzzles } from "./vendor/DisplayablePG3D";
-import { LegacyExperimentalPG3DViewConfig } from "cubing/dist/esm/src/twisty/dom/TwistyPlayer";
+import { Alg } from "cubing/alg";
 
 export class PG3DScrambleView {
   public element: HTMLElement;
@@ -16,18 +15,16 @@ export class PG3DScrambleView {
     const displayablePuzzle = puzzles[pgID];
 
     const twistyParams: TwistyPlayerInitialConfig = {
-      alg: new Sequence([]),
+      alg: new Alg(),
     };
-    let legacyExperimentalPG3DViewConfig:
-      | LegacyExperimentalPG3DViewConfig
-      | undefined = undefined;
+    let legacyExperimentalPG3DViewConfig: any | undefined = undefined;
     switch (displayablePuzzle.type) {
       case "kpuzzle": // TODO
         break;
       case "pg3d":
         twistyParams.puzzle = "custom";
         twistyParams.visualization = "PG3D";
-        twistyParams.controls = "none";
+        twistyParams.controlPanel = "none";
         legacyExperimentalPG3DViewConfig = {
           def: displayablePuzzle.kpuzzleDefinition(),
           stickerDat: displayablePuzzle.stickerDat(),
@@ -44,7 +41,7 @@ export class PG3DScrambleView {
   }
 
   public resetScramble(): void {
-    this.twisty.alg = new Sequence([]);
+    this.twisty.alg = new Alg();
   }
 
   public setScramble(scramble: string): void {

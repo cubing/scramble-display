@@ -1,13 +1,13 @@
-import { algToString, parse } from "cubing/alg";
-import { experimentalSetShareAllNewRenderers } from "cubing/twisty";
+import { Alg } from "cubing/alg";
+import { TimeRange } from "cubing/dist/types/twisty/animation/cursor/AlgCursor"; // TODO
+import {
+  experimentalSetShareAllNewRenderers,
+  TwistyPlayer,
+} from "cubing/twisty";
 import { wideMovesToSiGN } from "./3x3x3-wide-moves";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
-import { EventID } from "./events";
-import { Cube3DScrambleView } from "./scramble-view/Cube3DScrambleView";
-import { PG3DScrambleView } from "./scramble-view/PG3DScrambleView";
-import { ScrambleView } from "./scramble-view/ScrambleView";
-import { SVG2DScrambleView } from "./scramble-view/SVG2DScrambleView";
-import { SVGPGScrambleView } from "./scramble-view/SVGPGScrambleView";
+import { EventID, eventInfo } from "./events";
+import { parseForEvent } from "./parsers";
 
 experimentalSetShareAllNewRenderers(true);
 
@@ -40,7 +40,7 @@ export class ScrambleDisplay extends HTMLElement {
     checkered: null,
   };
   #invalidScrambleStyleElem: HTMLStyleElement;
-  #scrambleView: ScrambleView;
+  #twistyPlayer: TwistyPlayer;
   #hasRendered: boolean = false;
 
   // TODO: Accept ScrambleDisplayAttributes arg?
@@ -55,6 +55,28 @@ export class ScrambleDisplay extends HTMLElement {
     const style = document.createElement("style");
     style.textContent = mainStyleText;
     this.#shadow.appendChild(style);
+
+    this.newTwistyPlayer();
+  }
+
+  // TODO: Ideally, we would only need to do this once. However, it can be
+  // tricky to keep visualization, puzzle, and alg in sync, so for now we
+  // reinstantiate it when switching events.
+  newTwistyPlayer(): void {
+    if (this.#twistyPlayer) {
+      this.#wrapper.removeChild(this.#twistyPlayer);
+    }
+    this.#twistyPlayer = new TwistyPlayer({
+      controlPanel: "none",
+      hintFacelets: "none",
+    });
+    this.#twistyPlayer.timeline.addTimestampListener({
+      onTimelineTimestampChange: () => {},
+      onTimeRangeChange: (_): void => {
+        this.#twistyPlayer.timeline.jumpToEnd(); // TODO: can we do this more directly?
+      },
+    });
+    this.#wrapper.appendChild(this.#twistyPlayer);
   }
 
   private attributeChanged(
@@ -80,37 +102,32 @@ export class ScrambleDisplay extends HTMLElement {
       this.#currentAttributes.visualization = this.getAttribute(
         "visualization"
       );
-      const visualization: Visualization = (this.#currentAttributes
+      let visualization: Visualization = (this.#currentAttributes
         .visualization ?? "2D") as Visualization;
       this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
       const scramble = this.#currentAttributes.scramble;
       this.#currentAttributes.checkered = this.getAttribute("checkered");
       const checkered = this.#currentAttributes.checkered !== null;
 
-      switch (visualization) {
-        case "3D":
-          // TODO: reuse `TwistyPlayer`.
-          if (PG3DScrambleView.eventImplemented(event)) {
-            this.setScrambleView(new PG3DScrambleView(event), scramble);
-          } else if (event === CUBE_333) {
-            this.setScrambleView(new Cube3DScrambleView(scramble), scramble);
-          } else {
-            console.warn(
-              `3D view is not implemented for this event yet (${event}). Falling back to 2D.`
-            );
-            this.render2D(event, scramble);
-          }
-          break;
-        case "2D":
-        default:
-          this.render2D(event, scramble);
+      if (eventInfo[event].only2D) {
+        visualization = "2D";
       }
+
+      const puzzle = eventInfo[event].puzzleID;
+
+      if (this.#twistyPlayer.puzzle != puzzle) {
+        this.newTwistyPlayer();
+      }
+
+      this.#twistyPlayer.visualization = visualization;
+      this.#twistyPlayer.puzzle = puzzle as any;
+      this.setScramble(scramble.toString());
 
       if (
         this.#invalidScrambleStyleElem === null ||
         !this.#shadow.contains(this.#invalidScrambleStyleElem)
       ) {
-        this.#scrambleView?.setCheckered(checkered);
+        this.#twistyPlayer.background = checkered ? "checkered" : "none";
       }
 
       this.#hasRendered = true;
@@ -121,7 +138,7 @@ export class ScrambleDisplay extends HTMLElement {
         if (scramble) {
           this.setScramble(scramble);
         } else {
-          this.#scrambleView.resetScramble();
+          this.#twistyPlayer.alg = new Alg();
         }
       }
       if (
@@ -131,22 +148,8 @@ export class ScrambleDisplay extends HTMLElement {
       ) {
         this.#currentAttributes.checkered = this.getAttribute("checkered");
         const checkered = this.#currentAttributes.checkered !== null;
-        this.#scrambleView.setCheckered(checkered);
+        this.#twistyPlayer.background = checkered ? "checkered" : "none";
       }
-    }
-  }
-
-  // We break out the 2D implementation so that the 3D implementation can call it as a fallback without overly clever break/continue hacks.
-  private render2D(event: EventID, scramble: string): void {
-    if (SVGPGScrambleView.eventImplemented(event)) {
-      const svgPGView = new SVGPGScrambleView(event);
-      this.setScrambleView(svgPGView, scramble);
-    } else if (SVG2DScrambleView.eventImplemented(event)) {
-      const svg2DView = new SVG2DScrambleView(event);
-      this.setScrambleView(svg2DView, scramble);
-    } else {
-      this.clearScrambleView();
-      throw new Error(`2D view is not implemented for this event (${event}).`);
     }
   }
 
@@ -179,19 +182,14 @@ export class ScrambleDisplay extends HTMLElement {
 
   private setScramble(s: string): void {
     // TODO: Dedup this calculation with `render`.
-    const rewrittenScramble = (
-      this.#currentAttributes.event ?? DEFAULT_EVENT
-    ).startsWith(CUBE_333)
-      ? algToString(wideMovesToSiGN(parse(s)))
-      : s; // TODO
     try {
-      this.#scrambleView.setScramble(rewrittenScramble);
+      this.#twistyPlayer.alg = parseForEvent(this.event ?? DEFAULT_EVENT, s);
       if (this.#shadow.contains(this.#invalidScrambleStyleElem)) {
         this.#shadow.removeChild(this.#invalidScrambleStyleElem);
         // TODO: Use a model that automatically lets the invalid scramble elem override the checkered child bg.
-        this.#scrambleView.setCheckered(
-          this.#currentAttributes.checkered !== null
-        );
+        this.#twistyPlayer.background = this.#currentAttributes.checkered
+          ? "checkered"
+          : "none";
       }
     } catch (e) {
       if (!this.#invalidScrambleStyleElem) {
@@ -199,32 +197,9 @@ export class ScrambleDisplay extends HTMLElement {
         this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
       }
       this.#shadow.appendChild(this.#invalidScrambleStyleElem);
-      this.#scrambleView.setCheckered(false);
+      this.#twistyPlayer.background = "none";
     }
     this.#wrapper.setAttribute("title", s);
-  }
-
-  private clearScrambleView(): void {
-    if (this.#scrambleView) {
-      this.#wrapper.removeChild(this.#scrambleView.element);
-    }
-    this.#wrapper.removeAttribute("title");
-  }
-
-  private setScrambleView(
-    scrambleView: ScrambleView,
-    scramble?: string,
-    checkered?: boolean
-  ): void {
-    this.clearScrambleView();
-    this.#scrambleView = scrambleView;
-    this.#wrapper.appendChild(scrambleView.element);
-
-    if (scramble) {
-      this.setScramble(scramble);
-    }
-
-    this.#scrambleView.setCheckered(checkered ?? false);
   }
 
   protected connectedCallback() {

@@ -1,5 +1,4 @@
 import { Alg, AlgBuilder, Move, QuantumMove } from "cubing/alg";
-import { wideMovesToSiGN } from "../3x3x3-wide-moves";
 import { EventID } from "../events";
 import { clockParse } from "./clock";
 import { megaminxWCAParse } from "./megaminx-wca";
@@ -37,9 +36,6 @@ export function parseForEvent(eventID: EventID, s: string): Alg {
     case "sq1":
       return jsonToAlg(sq1Parse(s));
     default:
-      if (eventID.startsWith("333")) {
-        return wideMovesToSiGN(new Alg(s));
-      }
       return new Alg(s);
   }
 }

@@ -1,24 +1,24 @@
 import { ScrambleView } from "./ScrambleView";
 import { TwistyPlayer } from "cubing/twisty";
-import { parse, Sequence } from "cubing/alg";
+import { Alg } from "cubing/alg";
 
 export class Cube3DScrambleView implements ScrambleView {
   public element: HTMLElement;
   private twisty: TwistyPlayer;
   constructor(scramble: string = "") {
     this.element = this.twisty = new TwistyPlayer({
-      controls: "none",
-      alg: parse("R U R'"),
+      controlPanel: "none",
+      alg: Alg.fromString("R U R'"),
     });
   }
 
   public resetScramble(): void {
-    this.twisty.alg = new Sequence([]);
+    this.twisty.alg = new Alg();
   }
 
   public setScramble(s: string): void {
     try {
-      const seq = parse(s);
+      const seq = Alg.fromString(s);
       this.twisty.alg = seq;
       this.twisty.timeline?.jumpToEnd();
     } catch (e) {

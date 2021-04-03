@@ -1,12 +1,14 @@
-import { KPuzzle, KPuzzleDefinition, SVG } from "cubing/kpuzzle";
+import { cube3x3x3 } from "cubing/puzzles";
+import { KPuzzle, KPuzzleDefinition, KPuzzleSVGWrapper } from "cubing/kpuzzle";
 import { EventID, eventInfo } from "../events";
 import { parseForEvent } from "../parsers";
 import { ScrambleView } from "./ScrambleView";
 import { puzzles } from "./vendor/DisplayablePG3D";
 
 export class SVGPGScrambleView implements ScrambleView {
-  private svg: SVG;
-  private definition: KPuzzleDefinition;
+  private elementWrapper: HTMLDivElement = document.createElement("div");
+  private svg: Promise<KPuzzleSVGWrapper>;
+  private definition: Promise<KPuzzleDefinition>;
   private kpuzzle: KPuzzle;
   constructor(private eventID: EventID) {
     const pgID = eventInfo[eventID].svgPGID;
@@ -16,9 +18,15 @@ export class SVGPGScrambleView implements ScrambleView {
     const displayablePuzzle = puzzles[pgID];
 
     this.definition = displayablePuzzle.kpuzzleDefinition();
-    this.definition.svg = displayablePuzzle.svg();
-    this.kpuzzle = new KPuzzle(this.definition);
-    this.svg = new SVG(this.definition);
+    this.kpuzzle = new KPuzzle(await this.definition);
+    this.svg = (async () => {
+      const svg = new KPuzzleSVGWrapper(
+        await this.definition,
+        await cube3x3x3.svg()
+      );
+      this.elementWrapper.appendChild(svg.element);
+      return svg;
+    })();
   }
 
   public resetScramble() {
@@ -32,11 +40,13 @@ export class SVGPGScrambleView implements ScrambleView {
     } catch (e) {
       throw new Error("Invalid scramble!"); // TODO
     }
-    this.svg.draw(this.definition, this.kpuzzle.state);
+    (async () => {
+      (await this.svg).draw(this.definition, this.kpuzzle.state);
+    })();
   }
 
   get element(): HTMLElement {
-    return this.svg.element;
+    return this.elementWrapper;
   }
 
   private static svgPGID(eventID: EventID): string | undefined {

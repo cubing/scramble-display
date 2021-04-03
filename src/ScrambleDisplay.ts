@@ -1,10 +1,8 @@
 import { Alg } from "cubing/alg";
-import { TimeRange } from "cubing/dist/types/twisty/animation/cursor/AlgCursor"; // TODO
 import {
   experimentalSetShareAllNewRenderers,
   TwistyPlayer,
 } from "cubing/twisty";
-import { wideMovesToSiGN } from "./3x3x3-wide-moves";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
 import { EventID, eventInfo } from "./events";
 import { parseForEvent } from "./parsers";

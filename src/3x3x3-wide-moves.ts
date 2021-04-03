@@ -1,49 +1,66 @@
-import { AlgPart, BlockMove, Comment, Commutator, Conjugate, Group, modifiedBlockMove, NewLine, Pause, Sequence, TraversalUp } from "cubing/alg";
+import {
+  Alg,
+  Move,
+  LineComment,
+  Commutator,
+  Conjugate,
+  Grouping,
+  Pause,
+  TraversalUp,
+  Unit,
+  AlgBuilder,
+  Newline,
+} from "cubing/alg";
 
-class WideMovesToSign extends TraversalUp<AlgPart> {
-  public traverseSequence(sequence: Sequence): Sequence {
-    return new Sequence(
-      sequence.nestedUnits.map((a) => this.traverseIntoUnit(a)),
+class WideMovesToSign extends TraversalUp<Alg, Unit> {
+  public traverseAlg(alg: Alg): Alg {
+    const builder = new AlgBuilder();
+    for (const unit of alg.units()) {
+      builder.push(this.traverseUnit(unit));
+    }
+    return builder.toAlg();
+  }
+  public traverseGrouping(grouping: Grouping): Grouping {
+    return new Grouping(
+      this.traverseAlg(grouping.experimentalAlg),
+      grouping.experimentalEffectiveAmount
     );
   }
-  public traverseGroup(group: Group): AlgPart {
-    return new Group(this.traverseSequence(group.nestedSequence), group.amount);
-  }
-  public traverseBlockMove(blockMove: BlockMove): AlgPart {
-    if (blockMove.family.endsWith("w")) {
-      return modifiedBlockMove(blockMove, {
-        family: blockMove.family.slice(0, blockMove.family.length - 1).toLowerCase()
-      })
+  public traverseMove(move: Move): Move {
+    if (move.family.endsWith("w")) {
+      return move.modified({
+        family: move.family.slice(0, move.family.length - 1).toLowerCase(),
+      });
     } else {
-      return blockMove;
+      return move;
     }
   }
-  public traverseCommutator(commutator: Commutator): AlgPart {
-    return new Conjugate(
-      this.traverseSequence(commutator.A),
-      this.traverseSequence(commutator.B),
-      commutator.amount,
+  public traverseCommutator(commutator: Commutator): Commutator {
+    return new Commutator(
+      this.traverseAlg(commutator.A),
+      this.traverseAlg(commutator.B),
+      commutator.experimentalEffectiveAmount
     );
   }
-  public traverseConjugate(conjugate: Conjugate): AlgPart {
+  public traverseConjugate(conjugate: Conjugate): Conjugate {
     return new Conjugate(
-      this.traverseSequence(conjugate.A),
-      this.traverseSequence(conjugate.B),
-      conjugate.amount,
+      this.traverseAlg(conjugate.A),
+      this.traverseAlg(conjugate.B),
+      conjugate.experimentalEffectiveAmount
     );
   }
-  public traversePause(pause: Pause): AlgPart {
+  public traversePause(pause: Pause): Pause {
     return pause;
   }
-  public traverseNewLine(newLine: NewLine): AlgPart {
+  public traverseNewline(newLine: Newline): Newline {
     return newLine;
   }
-  public traverseComment(comment: Comment): AlgPart {
-    return comment;
+  public traverseLineComment(lineComment: LineComment): LineComment {
+    return lineComment;
   }
 }
 
 const wideMovesToSiGNInstance = new WideMovesToSign();
-export const wideMovesToSiGN = wideMovesToSiGNInstance.traverseSequence.bind(
-  wideMovesToSiGNInstance,
-) as (a: Sequence) => Sequence;
+export const wideMovesToSiGN = wideMovesToSiGNInstance.traverseAlg.bind(
+  wideMovesToSiGNInstance
+) as (a: Alg) => Alg;

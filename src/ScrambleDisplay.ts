@@ -1,4 +1,4 @@
-import { algToString, parse } from "cubing/alg";
+import { Alg } from "cubing/alg";
 import { experimentalSetShareAllNewRenderers } from "cubing/twisty";
 import { wideMovesToSiGN } from "./3x3x3-wide-moves";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
@@ -182,7 +182,7 @@ export class ScrambleDisplay extends HTMLElement {
     const rewrittenScramble = (
       this.#currentAttributes.event ?? DEFAULT_EVENT
     ).startsWith(CUBE_333)
-      ? algToString(wideMovesToSiGN(parse(s)))
+      ? wideMovesToSiGN(Alg.fromString(s)).toString()
       : s; // TODO
     try {
       this.#scrambleView.setScramble(rewrittenScramble);

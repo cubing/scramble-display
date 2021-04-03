@@ -59,6 +59,9 @@ export class ScrambleDisplay extends HTMLElement {
     this.newTwistyPlayer();
   }
 
+  // TODO: Ideally, we would only need to do this once. However, it can be
+  // tricky to keep visualization, puzzle, and alg in sync, so for now we
+  // reinstantiate it when switching events.
   newTwistyPlayer(): void {
     if (this.#twistyPlayer) {
       this.#wrapper.removeChild(this.#twistyPlayer);

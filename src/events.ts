@@ -73,6 +73,7 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
   pyram: {
     name: "Pyraminx",
     puzzleID: "pyraminx",
+    only2D: true,
   },
   skewb: {
     name: "Skewb",

@@ -1,3 +1,3 @@
-import { Sequence } from "cubing/alg";
+import { SequenceJSON } from "./sequence-json";
 
-export function sq1Parse(s: string): Sequence;
+export function sq1Parse(s: string): SequenceJSON;

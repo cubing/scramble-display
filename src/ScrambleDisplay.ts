@@ -100,7 +100,7 @@ export class ScrambleDisplay extends HTMLElement {
 
 
   public set event(eventID: EventID | null) {
-    const puzzleID = (eventInfo[eventID ?? "3x3x3"] ?? {puzzleID: "3x3x3"}).puzzleID as PuzzleID;
+    const puzzleID = (eventInfo[eventID ?? DEFAULT_EVENT] ?? {puzzleID: DEFAULT_EVENT}).puzzleID as PuzzleID;
     this.#twistyPlayer.puzzle = puzzleID;
     this.#currentAttributes.eventID = eventID;
   }

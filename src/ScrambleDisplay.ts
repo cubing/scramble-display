@@ -1,12 +1,12 @@
 import { Alg } from "cubing/alg";
+import { AlgWithIssues } from "cubing/dist/types/twisty/model/depth-0/AlgProp";
 import { PuzzleID } from "cubing/dist/types/twisty/old/dom/TwistyPlayerConfig";
 import {
   experimentalSetShareAllNewRenderers,
-  TwistyPlayer,
+  TwistyPlayer
 } from "cubing/twisty";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
 import { EventID, eventInfo } from "./events";
-import { parseForEvent } from "./parsers";
 
 experimentalSetShareAllNewRenderers(true);
 
@@ -44,6 +44,25 @@ export class ScrambleDisplay extends HTMLElement {
     visualization: "2D"
   });
 
+  #invalidScrambleStyleElem: HTMLElement | null = null;
+  #invalid = false;
+  #setInvalidStyle(invalid: boolean): void {
+    if (this.#invalid === invalid) {
+      return;
+    }
+    this.#invalid = invalid;
+    console.log("invalid", invalid);
+    if (invalid) {
+      if (!this.#invalidScrambleStyleElem) {
+        this.#invalidScrambleStyleElem = document.createElement("style");
+        this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
+      }
+      this.#shadow.appendChild(this.#invalidScrambleStyleElem);
+    } else {
+      this.#invalidScrambleStyleElem?.remove();
+    }
+  }
+
   // Note: You should avoid setting properties like `alg` or `visualization`
   // directly on the twisty player, since `<scramble-display>` may overwrite
   // them again. However, we make the player available this way in case you may
@@ -64,6 +83,15 @@ export class ScrambleDisplay extends HTMLElement {
     const style = document.createElement("style");
     style.textContent = mainStyleText;
     this.#shadow.appendChild(style);
+
+    this.#twistyPlayer.experimentalModel.puzzleAlgProp.addFreshListener((algWithIssues: AlgWithIssues) => {
+      console.log("fresh!", algWithIssues, algWithIssues.issues.errors)
+      if (algWithIssues.issues.errors.length > 0) {
+        this.#setInvalidStyle(true);
+      } else {
+        this.#setInvalidStyle(false);
+      }
+    })
   }
 
   connectedCallback(): void {
@@ -114,7 +142,6 @@ export class ScrambleDisplay extends HTMLElement {
     oldValue: string,
     newValue: string
   ) {
-    console.log(name, oldValue, newValue)
     switch (name) {
       case "event": {
         this.event = newValue as EventID;

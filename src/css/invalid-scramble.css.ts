@@ -1,3 +1,4 @@
+export const invalidScrambleStyleText = `
 :host {
   background-size: auto !important;
   background-color: red !important;
@@ -10,3 +11,4 @@
   ) !important;
   opacity: 0.5 !important;
 }
+`;

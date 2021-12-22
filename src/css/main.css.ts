@@ -1,3 +1,4 @@
+export const mainStyleText = `
 :host {
   width: 384px;
   height: 256px;
@@ -46,3 +47,4 @@ twisty-player {
   background-size: 32px 32px;
   background-position: 0 0, 16px 16px;
 }
+`;

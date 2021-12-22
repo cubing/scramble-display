@@ -3,6 +3,7 @@
   "version": "0.3.1",
   "description": "A library to display puzzle scrambles.",
   "repository": "github:cubing/scramble-display",
+  "type": "module",
   "types": "dist/scramble-display.d.ts",
   "main": "dist/scramble-display.node.js",
   "module": "dist/scramble-display.module.js",
@@ -20,6 +21,7 @@
   "author": "Lucas Garron <code@garron.net>",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "barely-a-dev-server": "^0.2.5",
     "cubing": "^0.21.0-pre1"
   },
   "devDependencies": {

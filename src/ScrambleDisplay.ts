@@ -5,7 +5,8 @@ import {
   experimentalSetShareAllNewRenderers,
   TwistyPlayer,
 } from "cubing/twisty";
-import { invalidScrambleStyleText, mainStyleText } from "./css";
+import { mainStyleText } from "./css/main.css";
+import { invalidScrambleStyleText } from "./css/invalid-scramble.css";
 import { EventID, eventInfo } from "./events";
 
 experimentalSetShareAllNewRenderers(true);

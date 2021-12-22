@@ -1,3 +1,3 @@
 import { barelyServe } from "barely-a-dev-server";
 
-barelyServe({ entryRoot: "src/targets/dev" });
+barelyServe({ entryRoot: "src/dev" });

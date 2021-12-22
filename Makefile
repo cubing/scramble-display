@@ -2,7 +2,7 @@
 # https://github.com/lgarron/Makefile-scripts
 
 # Note: the first command becomes the default `make` target.
-NPM_COMMANDS = build build-types build-main build-module build-browser-global dev clean prepack
+NPM_COMMANDS = build build-types build-esm build-bundle-global build-site dev clean prepack
 
 .PHONY: $(NPM_COMMANDS)
 $(NPM_COMMANDS):
@@ -19,15 +19,15 @@ update-Makefile:
 publish:
 	npm publish
 
-SFTP_PATH = "towns.dreamhost.com:~/cdn.cubing.net/js/scramble-display/latest/"
+SFTP_PATH = "cubing_deploy@towns.dreamhost.com:~/experiments.cubing.net/scramble-display/"
 URL       = "https://experiments.cubing.net/scramble-display/"
 
 .PHONY: deploy
-deploy: clean build-browser-global
+deploy: clean build-site
 	# Single file
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \
-		./dist/ \
+		./dist/site/ \
 		${SFTP_PATH}
 	echo "\nDone deploying. Go to ${URL}\n"

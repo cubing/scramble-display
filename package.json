@@ -3,16 +3,17 @@
   "version": "0.3.1",
   "description": "A library to display puzzle scrambles.",
   "type": "module",
-  "types": "dist/types/scramble-display.d.ts",
-  "module": "dist/esm/scramble-display.module.js",
+  "types": "dist/types/index.d.ts",
+  "module": "dist/esm/index.js",
   "repository": "github:cubing/scramble-display",
   "scripts": {
     "build": "npm run build-types && npm run build-esm && npm run build-bundle-global",
-    "build-types": "npx parcel build --target types src/targets/types.ts",
-    "build-module": "npx parcel build --target module src/targets/module.ts",
-    "build-browser-global": "npx parcel build --target browser-global src/targets/browser-global.ts",
-    "dev": "npx parcel serve src/targets/dev/index.html",
-    "clean": "rm -rf ./.parcel-cache ./dist",
+    "build-types": "npx tsc -p tsconfig.json",
+    "build-esm": "node script/build-esm.js",
+    "build-bundle-global": "node script/build-bundle-global.js",
+    "build-site": "node script/build-site.js",
+    "dev": "node script/dev.js",
+    "clean": "rm -rf ./.cache ./dist",
     "prepack": "npm run clean && npm run build"
   },
   "author": "Lucas Garron <code@garron.net>",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "barely-a-dev-server": "^0.2.5",
-    "esbuild": "^0.14.7"
+    "esbuild": "^0.14.7",
+    "typescript": "^4.5.4"
   }
 }

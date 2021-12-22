@@ -6,6 +6,13 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "strictNullChecks": true
-  }
+    "strictNullChecks": true,
+    "outDir": "dist/types",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "removeComments": false
+  },
+  "include": [
+    "src/scramble-display"
+  ]
 }

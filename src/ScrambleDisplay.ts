@@ -1,11 +1,12 @@
 import { Alg } from "cubing/alg";
+import { AlgWithIssues } from "cubing/dist/types/twisty/model/depth-0/AlgProp";
+import { PuzzleID } from "cubing/dist/types/twisty/old/dom/TwistyPlayerConfig";
 import {
   experimentalSetShareAllNewRenderers,
   TwistyPlayer,
 } from "cubing/twisty";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
 import { EventID, eventInfo } from "./events";
-import { parseForEvent } from "./parsers";
 
 experimentalSetShareAllNewRenderers(true);
 
@@ -22,24 +23,53 @@ export type ScrambleDisplayAttributes = {
 };
 
 export type CachedAttributes = {
-  event: string | null;
-  scramble: string | null;
-  visualization: string | null;
-  checkered: string | null;
+  eventID: EventID | null;
+  scramble: Alg;
+  visualization: Visualization | null;
+  checkered: boolean;
 };
 
 export class ScrambleDisplay extends HTMLElement {
   #shadow: ShadowRoot;
   #wrapper: HTMLDivElement = document.createElement("div");
   #currentAttributes: CachedAttributes = {
-    event: null,
-    scramble: null,
+    eventID: null,
+    scramble: new Alg(),
     visualization: null,
-    checkered: null,
+    checkered: true,
   };
-  #invalidScrambleStyleElem: HTMLStyleElement;
-  #twistyPlayer: TwistyPlayer;
-  #hasRendered: boolean = false;
+  #twistyPlayer: TwistyPlayer = new TwistyPlayer({
+    controlPanel: "none",
+    hintFacelets: "none",
+    visualization: "2D",
+  });
+
+  #invalidScrambleStyleElem: HTMLElement | null = null;
+  #invalid = false;
+  #setInvalidStyle(invalid: boolean): void {
+    if (this.#invalid === invalid) {
+      return;
+    }
+    this.#invalid = invalid;
+    console.log("invalid", invalid);
+    if (invalid) {
+      if (!this.#invalidScrambleStyleElem) {
+        this.#invalidScrambleStyleElem = document.createElement("style");
+        this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
+      }
+      this.#shadow.appendChild(this.#invalidScrambleStyleElem);
+    } else {
+      this.#invalidScrambleStyleElem?.remove();
+    }
+  }
+
+  // Note: You should avoid setting properties like `alg` or `visualization`
+  // directly on the twisty player, since `<scramble-display>` may overwrite
+  // them again. However, we make the player available this way in case you may
+  // find it convenient to have access for other purposes.
+  get player(): TwistyPlayer {
+    return this.#twistyPlayer;
+  }
 
   // TODO: Accept ScrambleDisplayAttributes arg?
   constructor() {
@@ -54,154 +84,59 @@ export class ScrambleDisplay extends HTMLElement {
     style.textContent = mainStyleText;
     this.#shadow.appendChild(style);
 
-    this.newTwistyPlayer();
-  }
-
-  // TODO: Ideally, we would only need to do this once. However, it can be
-  // tricky to keep visualization, puzzle, and alg in sync, so for now we
-  // reinstantiate it when switching events.
-  newTwistyPlayer(): void {
-    if (this.#twistyPlayer) {
-      this.#wrapper.removeChild(this.#twistyPlayer);
-    }
-    this.#twistyPlayer = new TwistyPlayer({
-      controlPanel: "none",
-      hintFacelets: "none",
-    });
-    this.#twistyPlayer.timeline.addTimestampListener({
-      onTimelineTimestampChange: () => {},
-      onTimeRangeChange: (_): void => {
-        this.#twistyPlayer.timeline.jumpToEnd(); // TODO: can we do this more directly?
-      },
-    });
-    this.#wrapper.appendChild(this.#twistyPlayer);
-  }
-
-  private attributeChanged(
-    attributeName: keyof ScrambleDisplayAttributes
-  ): boolean {
-    return (
-      this.#currentAttributes[attributeName] !==
-      this.getAttribute(attributeName)
+    this.#twistyPlayer.experimentalModel.puzzleAlgProp.addFreshListener(
+      (algWithIssues: AlgWithIssues) => {
+        if (algWithIssues.issues.errors.length > 0) {
+          this.#setInvalidStyle(true);
+        } else {
+          this.#setInvalidStyle(false);
+        }
+      }
     );
   }
 
-  private render(): void {
-    // TODO: Avoid false positives if event changed from `null` to (explicit) default value.
-    if (
-      !this.#hasRendered ||
-      this.attributeChanged("event") ||
-      this.attributeChanged("visualization")
-    ) {
-      // TODO: validate new values.
-      this.#currentAttributes.event = this.getAttribute("event");
-      const event: EventID = (this.#currentAttributes.event ??
-        DEFAULT_EVENT) as EventID;
-      this.#currentAttributes.visualization = this.getAttribute(
-        "visualization"
-      );
-      let visualization: Visualization = (this.#currentAttributes
-        .visualization ?? "2D") as Visualization;
-      this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
-      const scramble = this.#currentAttributes.scramble;
-      this.#currentAttributes.checkered = this.getAttribute("checkered");
-      const checkered = this.#currentAttributes.checkered !== null;
-
-      if (eventInfo[event].only2D) {
-        visualization = "2D";
-      }
-
-      const puzzle = eventInfo[event].puzzleID;
-
-      if (this.#twistyPlayer.puzzle != puzzle) {
-        this.newTwistyPlayer();
-      }
-
-      this.#twistyPlayer.visualization = visualization;
-      this.#twistyPlayer.puzzle = puzzle as any;
-      this.setScramble(scramble.toString());
-
-      if (
-        this.#invalidScrambleStyleElem === null ||
-        !this.#shadow.contains(this.#invalidScrambleStyleElem)
-      ) {
-        this.#twistyPlayer.background = checkered ? "checkered" : "none";
-      }
-
-      this.#hasRendered = true;
-    } else {
-      if (this.attributeChanged("scramble")) {
-        this.#currentAttributes.scramble = this.getAttribute("scramble") || "";
-        const scramble = this.#currentAttributes.scramble;
-        if (scramble) {
-          this.setScramble(scramble);
-        } else {
-          this.#twistyPlayer.alg = new Alg();
-        }
-      }
-      if (
-        this.attributeChanged("checkered") &&
-        (this.#invalidScrambleStyleElem === null ||
-          !this.#shadow.contains(this.#invalidScrambleStyleElem))
-      ) {
-        this.#currentAttributes.checkered = this.getAttribute("checkered");
-        const checkered = this.#currentAttributes.checkered !== null;
-        this.#twistyPlayer.background = checkered ? "checkered" : "none";
-      }
-    }
+  connectedCallback(): void {
+    this.#wrapper.appendChild(this.#twistyPlayer);
   }
 
+  public set event(eventID: EventID | null) {
+    const puzzleID = (
+      eventInfo[eventID ?? DEFAULT_EVENT] ?? { puzzleID: DEFAULT_EVENT }
+    ).puzzleID as PuzzleID;
+    this.#twistyPlayer.puzzle = puzzleID;
+    this.#currentAttributes.eventID = eventID;
+  }
   public get event(): EventID | null {
-    return this.getAttribute("event") as EventID | null;
+    return this.#currentAttributes.eventID;
   }
-  public get scramble(): string | null {
-    return this.getAttribute("scramble");
+
+  public set scramble(scramble: Alg | string | null) {
+    const alg = new Alg(scramble ?? "");
+    this.#twistyPlayer.alg = alg;
+    this.#currentAttributes.scramble = alg;
+
+    this.#wrapper.setAttribute("title", alg.toString());
+  }
+
+  public get scramble(): Alg {
+    return this.#currentAttributes.scramble;
+  }
+
+  public set visualization(visualization: Visualization | null) {
+    this.#twistyPlayer.visualization = visualization ?? "2D";
+    this.#currentAttributes.visualization = visualization;
   }
   public get visualization(): Visualization | null {
-    return this.getAttribute("visualization") as Visualization | null;
+    return this.#currentAttributes.visualization;
+  }
+
+  public set checkered(checkered: boolean) {
+    const checkeredBoolean = !!checkered;
+    this.#twistyPlayer.background = checkeredBoolean ? "checkered" : "none";
+    this.#currentAttributes.checkered = checkeredBoolean;
   }
   public get checkered(): boolean {
-    return this.getAttribute("checkered") !== null;
-  }
-  public set event(s: EventID | null) {
-    s ? this.setAttribute("event", s) : this.removeAttribute("event");
-  }
-  public set scramble(s: string | null) {
-    s ? this.setAttribute("scramble", s) : this.removeAttribute("scramble");
-  }
-  public set visualization(s: Visualization | null) {
-    s
-      ? this.setAttribute("visualization", s)
-      : this.removeAttribute("visualization");
-  }
-  public set checkered(s: boolean) {
-    s ? this.setAttribute("checkered", "") : this.removeAttribute("checkered");
-  }
-
-  private setScramble(s: string): void {
-    // TODO: Dedup this calculation with `render`.
-    try {
-      this.#twistyPlayer.alg = parseForEvent(this.event ?? DEFAULT_EVENT, s);
-      if (this.#shadow.contains(this.#invalidScrambleStyleElem)) {
-        this.#shadow.removeChild(this.#invalidScrambleStyleElem);
-        // TODO: Use a model that automatically lets the invalid scramble elem override the checkered child bg.
-        this.#twistyPlayer.background = this.#currentAttributes.checkered
-          ? "checkered"
-          : "none";
-      }
-    } catch (e) {
-      if (!this.#invalidScrambleStyleElem) {
-        this.#invalidScrambleStyleElem = document.createElement("style");
-        this.#invalidScrambleStyleElem.textContent = invalidScrambleStyleText;
-      }
-      this.#shadow.appendChild(this.#invalidScrambleStyleElem);
-      this.#twistyPlayer.background = "none";
-    }
-    this.#wrapper.setAttribute("title", s);
-  }
-
-  protected connectedCallback() {
-    this.render();
+    return this.#currentAttributes.checkered;
   }
 
   protected attributeChangedCallback(
@@ -209,7 +144,24 @@ export class ScrambleDisplay extends HTMLElement {
     oldValue: string,
     newValue: string
   ) {
-    this.render();
+    switch (name) {
+      case "event": {
+        this.event = newValue as EventID;
+        break;
+      }
+      case "scramble": {
+        this.scramble = newValue;
+        break;
+      }
+      case "visualization": {
+        this.visualization = newValue as any;
+        break;
+      }
+      case "checkered": {
+        this.checkered = newValue !== "";
+        break;
+      }
+    }
   }
 
   protected static get observedAttributes(): Array<

@@ -5,4 +5,5 @@ build({
   format: "esm",
   outfile: "dist/bundle-global/scramble-display.bundle-global.ts",
   bundle: true,
+  minify: true,
 });

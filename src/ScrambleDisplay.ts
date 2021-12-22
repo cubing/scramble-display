@@ -3,7 +3,7 @@ import { AlgWithIssues } from "cubing/dist/types/twisty/model/depth-0/AlgProp";
 import { PuzzleID } from "cubing/dist/types/twisty/old/dom/TwistyPlayerConfig";
 import {
   experimentalSetShareAllNewRenderers,
-  TwistyPlayer
+  TwistyPlayer,
 } from "cubing/twisty";
 import { invalidScrambleStyleText, mainStyleText } from "./css";
 import { EventID, eventInfo } from "./events";
@@ -41,7 +41,7 @@ export class ScrambleDisplay extends HTMLElement {
   #twistyPlayer: TwistyPlayer = new TwistyPlayer({
     controlPanel: "none",
     hintFacelets: "none",
-    visualization: "2D"
+    visualization: "2D",
   });
 
   #invalidScrambleStyleElem: HTMLElement | null = null;
@@ -68,7 +68,7 @@ export class ScrambleDisplay extends HTMLElement {
   // them again. However, we make the player available this way in case you may
   // find it convenient to have access for other purposes.
   get player(): TwistyPlayer {
-    return this.#twistyPlayer
+    return this.#twistyPlayer;
   }
 
   // TODO: Accept ScrambleDisplayAttributes arg?
@@ -84,30 +84,32 @@ export class ScrambleDisplay extends HTMLElement {
     style.textContent = mainStyleText;
     this.#shadow.appendChild(style);
 
-    this.#twistyPlayer.experimentalModel.puzzleAlgProp.addFreshListener((algWithIssues: AlgWithIssues) => {
-      console.log("fresh!", algWithIssues, algWithIssues.issues.errors)
-      if (algWithIssues.issues.errors.length > 0) {
-        this.#setInvalidStyle(true);
-      } else {
-        this.#setInvalidStyle(false);
+    this.#twistyPlayer.experimentalModel.puzzleAlgProp.addFreshListener(
+      (algWithIssues: AlgWithIssues) => {
+        if (algWithIssues.issues.errors.length > 0) {
+          this.#setInvalidStyle(true);
+        } else {
+          this.#setInvalidStyle(false);
+        }
       }
-    })
+    );
   }
 
   connectedCallback(): void {
     this.#wrapper.appendChild(this.#twistyPlayer);
   }
 
-
   public set event(eventID: EventID | null) {
-    const puzzleID = (eventInfo[eventID ?? DEFAULT_EVENT] ?? {puzzleID: DEFAULT_EVENT}).puzzleID as PuzzleID;
+    const puzzleID = (
+      eventInfo[eventID ?? DEFAULT_EVENT] ?? { puzzleID: DEFAULT_EVENT }
+    ).puzzleID as PuzzleID;
     this.#twistyPlayer.puzzle = puzzleID;
     this.#currentAttributes.eventID = eventID;
   }
   public get event(): EventID | null {
-    return this.#currentAttributes.eventID
+    return this.#currentAttributes.eventID;
   }
-  
+
   public set scramble(scramble: Alg | string | null) {
     const alg = new Alg(scramble ?? "");
     this.#twistyPlayer.alg = alg;
@@ -117,7 +119,7 @@ export class ScrambleDisplay extends HTMLElement {
   }
 
   public get scramble(): Alg {
-    return this.#currentAttributes.scramble
+    return this.#currentAttributes.scramble;
   }
 
   public set visualization(visualization: Visualization | null) {
@@ -134,7 +136,7 @@ export class ScrambleDisplay extends HTMLElement {
     this.#currentAttributes.checkered = checkeredBoolean;
   }
   public get checkered(): boolean {
-    return this.#currentAttributes.checkered
+    return this.#currentAttributes.checkered;
   }
 
   protected attributeChangedCallback(

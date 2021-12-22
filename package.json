@@ -28,6 +28,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.10.1",
     "@babel/plugin-proposal-private-methods": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
+    "@parcel/transformer-inline-string": "^2.0.1",
     "@types/node": "^13.13.5",
     "parcel": "^2.0.1",
     "parcel-transformer-pegjs": "^1.0.1",

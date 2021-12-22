@@ -25,41 +25,4 @@ twisty-player {
   width: 100%;
   height: 100%;
 }
-
-.checkered {
-  background-color: #eaeaea;
-  background-image: linear-gradient(
-      45deg,
-      #ddd 25%,
-      transparent 25%,
-      transparent 75%,
-      #ddd 75%,
-      #ddd
-    ),
-    linear-gradient(
-      45deg,
-      #ddd 25%,
-      transparent 25%,
-      transparent 75%,
-      #ddd 75%,
-      #ddd
-    );
-  background-size: 32px 32px;
-  background-position: 0 0, 16px 16px;
-}
-`;
-
-export const invalidScrambleStyleText = `
-:host {
-  background-size: auto !important;
-  background-color: red !important;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 1em,
-    rgba(0, 0, 0, 0.2) 1em,
-    rgba(0, 0, 0, 0.2) 2em
-  ) !important;
-  opacity: 0.5 !important;
-}
 `;

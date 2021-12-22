@@ -1,6 +1,0 @@
-{
-	"extends": "@parcel/config-default",
-	"transformers": {
-		"*.pegjs": ["parcel-transformer-pegjs"]
-	}
-}

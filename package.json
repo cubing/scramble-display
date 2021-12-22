@@ -22,7 +22,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "barely-a-dev-server": "^0.2.5",
-    "cubing": "^0.21.0-pre1"
+    "cubing": "^0.21.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.1",

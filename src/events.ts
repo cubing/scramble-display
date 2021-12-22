@@ -58,7 +58,7 @@ export const eventInfo: { [eventId: string]: EventInfoData } = {
     puzzleID: "3x3x3",
   },
   "333oh": {
-    name: "3x3x3 One - Handed",
+    name: "3x3x3 One-Handed",
     puzzleID: "3x3x3",
   },
   clock: {

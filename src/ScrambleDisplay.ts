@@ -1,17 +1,18 @@
 import { Alg } from "cubing/alg";
-import { AlgWithIssues } from "cubing/dist/types/twisty/model/depth-0/AlgProp";
-import { PuzzleID } from "cubing/dist/types/twisty/old/dom/TwistyPlayerConfig";
+import type { AlgWithIssues } from "cubing/dist/types/twisty/model/props/puzzle/state/AlgProp";
+import { wcaEventInfo } from "cubing/puzzles";
 import {
   experimentalSetShareAllNewRenderers,
   TwistyPlayer,
 } from "cubing/twisty";
-import { mainStyleText } from "./css/main.css";
 import { invalidScrambleStyleText } from "./css/invalid-scramble.css";
-import { EventID, eventInfo } from "./events";
+import { mainStyleText } from "./css/main.css";
 
 experimentalSetShareAllNewRenderers(true);
 
 export type Visualization = "2D" | "3D";
+
+type EventID = string;
 
 const CUBE_333: EventID = "333";
 const DEFAULT_EVENT: EventID = CUBE_333;
@@ -101,10 +102,8 @@ export class ScrambleDisplay extends HTMLElement {
   }
 
   public set event(eventID: EventID | null) {
-    const puzzleID = (
-      eventInfo[eventID ?? DEFAULT_EVENT] ?? { puzzleID: DEFAULT_EVENT }
-    ).puzzleID as PuzzleID;
-    this.#twistyPlayer.puzzle = puzzleID;
+    const eventInfo = wcaEventInfo(eventID ?? DEFAULT_EVENT);
+    this.#twistyPlayer.puzzle = eventInfo!.puzzleID;
     this.#currentAttributes.eventID = eventID;
   }
   public get event(): EventID | null {

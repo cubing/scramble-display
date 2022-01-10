@@ -1,12 +1,9 @@
 import { Alg } from "cubing/alg";
 import { wcaEventInfo } from "cubing/puzzles";
 import {
-  experimentalSetShareAllNewRenderers,
   TwistyPlayer,
 } from "cubing/twisty";
 import { mainStyleText } from "./css";
-
-experimentalSetShareAllNewRenderers(true);
 
 export type Visualization = "2D" | "3D";
 

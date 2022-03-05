@@ -31,12 +31,13 @@ export class ScrambleDisplay extends HTMLElement {
     eventID: null,
     scramble: new Alg(),
     visualization: null,
-    checkered: true,
+    checkered: false,
   };
   #twistyPlayer: TwistyPlayer = new TwistyPlayer({
     controlPanel: "none",
     hintFacelets: "none",
     visualization: "2D",
+    background: "none"
   });
 
   // Note: You should avoid setting properties like `alg` or `visualization`
@@ -122,7 +123,7 @@ export class ScrambleDisplay extends HTMLElement {
         break;
       }
       case "checkered": {
-        this.checkered = newValue !== "";
+        this.checkered = newValue !== null;
         break;
       }
     }

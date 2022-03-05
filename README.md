@@ -4,6 +4,11 @@
 
 `<scramble-display>` is an easy way to display scrambles for twisty puzzles like the [Rubik's Cube](https://en.wikipedia.org/wiki/Rubik%27s_Cube) and [WCA puzzles](https://www.worldcubeassociation.org/) in web sites and apps.
 
+`<scramble-display>` uses [`cubing/twisty`](https://js.cubing.net/cubing/twisty/) from `cubing.js` under the hood, but has some conveniences that you may prefer:
+
+- Using the event ID rather than the puzzle name.
+- Displaying just the final scramble in 2D by default.
+
 ## Getting Started
 
 Here's a simple file to get you started:

@@ -1,6 +1,6 @@
 {
   "name": "scramble-display",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A library to display puzzle scrambles.",
   "type": "module",
   "types": "dist/types/index.d.ts",

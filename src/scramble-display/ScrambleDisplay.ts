@@ -1,8 +1,6 @@
 import { Alg } from "cubing/alg";
-import { wcaEventInfo } from "cubing/puzzles";
-import {
-  TwistyPlayer,
-} from "cubing/twisty";
+import { eventInfo } from "cubing/puzzles";
+import { TwistyPlayer } from "cubing/twisty";
 import { mainStyleText } from "./css";
 
 export type Visualization = "2D" | "3D";
@@ -68,8 +66,8 @@ export class ScrambleDisplay extends HTMLElement {
   }
 
   public set event(eventID: EventID | null) {
-    const eventInfo = wcaEventInfo(eventID ?? DEFAULT_EVENT);
-    this.#twistyPlayer.puzzle = eventInfo?.puzzleID ?? "3x3x3";
+    const info = eventInfo(eventID ?? DEFAULT_EVENT);
+    this.#twistyPlayer.puzzle = info?.puzzleID ?? "3x3x3";
     this.#currentAttributes.eventID = eventID;
   }
   public get event(): EventID | null {

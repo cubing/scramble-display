@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "moduleResolution": "node",
+    "target": "es2020",
+    "moduleResolution": "bundler",
     "alwaysStrict": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -10,7 +10,7 @@
     "outDir": "dist/types",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "removeComments": false
+    "removeComments": false,
   },
   "include": [
     "src/scramble-display"

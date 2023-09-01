@@ -22,9 +22,9 @@
     "cubing": "^0.42.0"
   },
   "devDependencies": {
-    "barely-a-dev-server": "^0.2.5",
-    "esbuild": "^0.14.7",
-    "typescript": "^4.5.4"
+    "barely-a-dev-server": "^0.6.0",
+    "esbuild": "^0.19.2",
+    "typescript": "^5.2.2"
   },
   "files": [
     "/LICENSE.md",

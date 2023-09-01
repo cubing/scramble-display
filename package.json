@@ -5,6 +5,12 @@
   "type": "module",
   "types": "dist/types/index.d.ts",
   "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
   "repository": "github:cubing/scramble-display",
   "scripts": {
     "build": "npm run build-types && npm run build-esm && npm run build-bundle-global",

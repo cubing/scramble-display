@@ -25,7 +25,7 @@
   "author": "Lucas Garron <code@garron.net>",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "cubing": "^0.42.0"
+    "cubing": "^0.53.10"
   },
   "devDependencies": {
     "barely-a-dev-server": "^0.6.0",

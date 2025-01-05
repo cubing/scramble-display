@@ -24,10 +24,4 @@ URL       = "https://experiments.cubing.net/scramble-display/"
 
 .PHONY: deploy
 deploy: clean build-site
-	# Single file
-	rsync -avz \
-		--exclude .DS_Store \
-		--exclude .git \
-		./dist/site/ \
-		${SFTP_PATH}
-	echo "\nDone deploying. Go to ${URL}\n"
+	bunx @cubing/deploy

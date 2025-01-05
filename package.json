@@ -1,43 +1,47 @@
 {
-  "name": "scramble-display",
-  "version": "0.5.5",
-  "description": "A library to display puzzle scrambles.",
-  "type": "module",
-  "types": "dist/types/index.d.ts",
-  "module": "dist/esm/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "types": "./dist/types/index.d.ts"
-    }
-  },
-  "repository": "github:cubing/scramble-display",
-  "scripts": {
-    "build": "npm run build-types && npm run build-esm && npm run build-bundle-global",
-    "build-types": "npx tsc -p tsconfig.json",
-    "build-esm": "node script/build-esm.js",
-    "build-bundle-global": "node script/build-bundle-global.js",
-    "build-site": "node script/build-site.js",
-    "dev": "node script/dev.js",
-    "clean": "rm -rf ./.cache ./dist",
-    "prepack": "npm run clean && npm run build"
-  },
-  "author": "Lucas Garron <code@garron.net>",
-  "license": "GPL-3.0-or-later",
-  "dependencies": {
-    "cubing": "^0.53.10"
-  },
-  "devDependencies": {
-    "barely-a-dev-server": "^0.6.0",
-    "esbuild": "^0.19.2",
-    "typescript": "^5.2.2"
-  },
-  "files": [
-    "/LICENSE.md",
-    "/README.md",
-    "/package.json",
-    "/package-lock.json",
-    "/dist/**/*",
-    "/src/scramble-display/**/*"
-  ]
+	"name": "scramble-display",
+	"version": "0.5.5",
+	"description": "A library to display puzzle scrambles.",
+	"type": "module",
+	"types": "dist/types/index.d.ts",
+	"module": "dist/esm/index.js",
+	"exports": {
+		".": {
+			"import": "./dist/esm/index.js",
+			"types": "./dist/types/index.d.ts"
+		}
+	},
+	"repository": "github:cubing/scramble-display",
+	"scripts": {
+		"build": "npm run build-types && npm run build-esm && npm run build-bundle-global",
+		"build-types": "npx tsc -p tsconfig.json",
+		"build-esm": "node script/build-esm.js",
+		"build-bundle-global": "node script/build-bundle-global.js",
+		"build-site": "node script/build-site.js",
+		"dev": "node script/dev.js",
+		"clean": "rm -rf ./.cache ./dist",
+		"prepack": "npm run clean && npm run build"
+	},
+	"author": "Lucas Garron <code@garron.net>",
+	"license": "GPL-3.0-or-later",
+	"dependencies": {
+		"cubing": "^0.53.10"
+	},
+	"devDependencies": {
+		"@cubing/deploy": "^0.1.8",
+		"barely-a-dev-server": "^0.6.0",
+		"esbuild": "^0.19.2",
+		"typescript": "^5.2.2"
+	},
+	"files": [
+		"/LICENSE.md",
+		"/README.md",
+		"/package.json",
+		"/package-lock.json",
+		"/dist/**/*",
+		"/src/scramble-display/**/*"
+	],
+	"@cubing/deploy": {
+		"https://experiments.cubing.net/scramble-display": {}
+	}
 }

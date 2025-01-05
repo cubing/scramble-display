@@ -1,26 +1,36 @@
-# This Makefile is a wrapper around the scripts from `package.json`.
-# https://github.com/lgarron/Makefile-scripts
+.PHONY: build
+build: build-esm build-bundle-global build-types
 
-# Note: the first command becomes the default `make` target.
-NPM_COMMANDS = build build-types build-esm build-bundle-global build-site dev clean prepack
+.PHONY: setup
+setup:
+	bun install --no-save
 
-.PHONY: $(NPM_COMMANDS)
-$(NPM_COMMANDS):
-	npm run $@
+.PHONY: build-esm
+build-esm: setup
+	bun run script/build-esm.ts
 
-# We write the npm commands to the top of the file above to make shell autocompletion work in more places.
-DYNAMIC_NPM_COMMANDS = $(shell cat package.json | npx jq --raw-output ".scripts | keys_unsorted | join(\" \")")
-.PHONY: update-Makefile
-update-Makefile:
-	sed -i "" "s/^NPM_COMMANDS = .*$$/NPM_COMMANDS = ${DYNAMIC_NPM_COMMANDS}/" Makefile
+.PHONY: build-bundle-global
+build-bundle-global: setup
+	bun run script/build-bundle-global.ts
 
-# This is not in `scripts` in `package.json`, because that would cause a double-build.
-.PHONY: publish
-publish:
-	npm publish
+.PHONY: build-types
+build-types: setup
+	npx tsc -p tsconfig.json
 
-SFTP_PATH = "cubing_deploy@towns.dreamhost.com:~/experiments.cubing.net/scramble-display/"
-URL       = "https://experiments.cubing.net/scramble-display/"
+.PHONY: build-site
+build-site: setup
+	bun run script/build-site.ts
+
+.PHONY: dev
+dev: setup
+	bun run script/dev.ts
+
+.PHONY: clean
+clean:
+	rm -rf ./.cache ./dist
+
+.PHONY: prepublishOnly
+prepack: clean test
 
 .PHONY: deploy
 deploy: clean build-site

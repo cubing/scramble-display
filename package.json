@@ -13,14 +13,7 @@
 	},
 	"repository": "github:cubing/scramble-display",
 	"scripts": {
-		"build": "npm run build-types && npm run build-esm && npm run build-bundle-global",
-		"build-types": "npx tsc -p tsconfig.json",
-		"build-esm": "node script/build-esm.js",
-		"build-bundle-global": "node script/build-bundle-global.js",
-		"build-site": "node script/build-site.js",
-		"dev": "node script/dev.js",
-		"clean": "rm -rf ./.cache ./dist",
-		"prepack": "npm run clean && npm run build"
+		"prepublishOnly": "make prepublishOnly"
 	},
 	"author": "Lucas Garron <code@garron.net>",
 	"license": "GPL-3.0-or-later",

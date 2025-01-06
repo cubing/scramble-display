@@ -21,6 +21,7 @@
 		"cubing": "^0.53.10"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
 		"@cubing/deploy": "^0.1.8",
 		"barely-a-dev-server": "^0.6.0",
 		"esbuild": "^0.19.2",

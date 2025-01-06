@@ -13,7 +13,5 @@
     "removeComments": false,
     "skipLibCheck": true
   },
-  "include": [
-    "src/scramble-display"
-  ]
+  "include": ["src/scramble-display"]
 }

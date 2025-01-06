@@ -37,7 +37,7 @@ export class ScrambleDisplay extends HTMLElement {
     controlPanel: "none",
     hintFacelets: "none",
     visualization: "2D",
-    background: "none"
+    background: "none",
   });
 
   // Note: You should avoid setting properties like `alg` or `visualization`
@@ -107,7 +107,7 @@ export class ScrambleDisplay extends HTMLElement {
   protected attributeChangedCallback(
     name: string,
     oldValue: string,
-    newValue: string
+    newValue: string,
   ) {
     switch (name) {
       case "event": {
@@ -119,7 +119,7 @@ export class ScrambleDisplay extends HTMLElement {
         break;
       }
       case "visualization": {
-        this.visualization = newValue as any;
+        this.visualization = newValue as Visualization;
         break;
       }
       case "checkered": {

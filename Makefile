@@ -35,3 +35,19 @@ prepack: clean test
 .PHONY: deploy
 deploy: clean build-site
 	bunx @cubing/deploy
+
+.PHONY: test
+test:
+	lint
+
+.PHONY: lint
+lint:
+	bun x @biomejs/biome check
+
+.PHONY: format
+format:
+	bun x @biomejs/biome check --write
+
+.PHONY: publish
+publish:
+	npm publish

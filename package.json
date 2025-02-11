@@ -24,7 +24,7 @@
 		"@biomejs/biome": "^1.9.4",
 		"@cubing/deploy": "^0.1.8",
 		"barely-a-dev-server": "^0.6.0",
-		"esbuild": "^0.19.2",
+		"esbuild": "^0.25.0",
 		"typescript": "^5.2.2"
 	},
 	"files": [

@@ -37,8 +37,7 @@ deploy: clean build-site
 	bunx @cubing/deploy
 
 .PHONY: test
-test:
-	lint
+test: lint
 
 .PHONY: lint
 lint:

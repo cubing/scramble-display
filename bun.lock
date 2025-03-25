@@ -4,7 +4,7 @@
     "": {
       "name": "scramble-display",
       "dependencies": {
-        "cubing": "v0.54.5",
+        "cubing": "v0.55.0",
       },
       "devDependencies": {
         "@biomejs/biome": "^1.9.4",
@@ -108,7 +108,7 @@
 
     "comlink": ["comlink@4.4.1", "", {}, "sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q=="],
 
-    "cubing": ["cubing@0.54.5", "", { "dependencies": { "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "cmd-ts-too": "^0.15.3", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-hdOerDptY8g9fIDeWGOzcJwEcjfMIwXobtEqtNNALe3mQP34poLXB3N+2xDdcKUCsiDj9uw7SAVZKYIeXt1fgw=="],
+    "cubing": ["cubing@0.55.0", "", { "dependencies": { "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "cmd-ts-too": "^0.15.3", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-1bUKQPiNijUf5tHXfZcWwy7Km/z2SUFKbM6fA35149+SLJxVWSyXlhdZpsaekponG7qAPMQ1wGHD0w/Xq0tDPw=="],
 
     "debug": ["debug@4.4.0", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA=="],
 

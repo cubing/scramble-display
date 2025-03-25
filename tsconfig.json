@@ -10,8 +10,7 @@
     "outDir": "dist/types",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "removeComments": false,
-    "skipLibCheck": true
+    "removeComments": false
   },
   "include": ["src/scramble-display"]
 }

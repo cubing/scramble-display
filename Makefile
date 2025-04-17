@@ -50,3 +50,7 @@ format:
 .PHONY: publish
 publish:
 	npm publish
+
+.PHONY: reset
+reset: clean
+	rm -rf ./node_modules

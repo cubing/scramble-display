@@ -28,6 +28,7 @@
 		"typescript": "^5.8.3"
 	},
 	"files": [
+		"/bun.lock",
 		"/dist/**/*",
 		"/src/scramble-display/**/*"
 	],

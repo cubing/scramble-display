@@ -10,6 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - uses: oven-sh/setup-bun@v1
+      - run: make setup
       - run: make build
 
   lint:
@@ -19,4 +20,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - uses: oven-sh/setup-bun@v1
-      - run: make lint
+      - run: make setup
+      - run: make lint-biome
+      - run: make lint-tsc

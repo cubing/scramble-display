@@ -37,14 +37,17 @@ deploy: clean build-site
 	bunx @cubing/deploy
 
 .PHONY: test
-test: lint test-tsc
+test: lint
 
 .PHONY: lint
-lint:
+lint: lint-biome lint-tsc
+
+.PHONY: lint-biome
+lint-biome:
 	bun x @biomejs/biome check
 
-.PHONY: test-tsc
-test-tsc:
+.PHONY: lint-tsc
+lint-tsc:
 	bun x tsc --project tsconfig.json
 
 .PHONY: format

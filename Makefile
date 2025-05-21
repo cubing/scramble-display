@@ -43,19 +43,19 @@ test: lint
 lint: lint-biome lint-tsc
 
 .PHONY: lint-biome
-lint-biome:
+lint-biome: setup
 	bun x @biomejs/biome check
 
 .PHONY: lint-tsc
-lint-tsc:
+lint-tsc: setup
 	bun x tsc --project tsconfig.json
 
 .PHONY: format
-format:
+format: setup
 	bun x @biomejs/biome check --write
 
 .PHONY: publish
-publish:
+publish: setup
 	npm publish
 
 .PHONY: reset

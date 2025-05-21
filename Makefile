@@ -30,7 +30,7 @@ clean:
 	rm -rf ./.cache ./dist
 
 .PHONY: prepublishOnly
-prepack: clean test
+prepack: test clean build
 
 .PHONY: deploy
 deploy: clean build-site

@@ -106,7 +106,7 @@ export class ScrambleDisplay extends HTMLElement {
 
   protected attributeChangedCallback(
     name: string,
-    oldValue: string,
+    _oldValue: string,
     newValue: string,
   ) {
     switch (name) {

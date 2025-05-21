@@ -15,7 +15,7 @@ build-bundle-global: setup
 
 .PHONY: build-types
 build-types: setup
-	npx tsc -p tsconfig.json
+	bun x tsc --project ./.config/types.tsconfig.json
 
 .PHONY: build-site
 build-site: setup
@@ -30,18 +30,22 @@ clean:
 	rm -rf ./.cache ./dist
 
 .PHONY: prepublishOnly
-prepack: test clean build
+prepublishOnly: test clean build
 
 .PHONY: deploy
 deploy: clean build-site
 	bunx @cubing/deploy
 
 .PHONY: test
-test: lint
+test: lint test-tsc
 
 .PHONY: lint
 lint:
 	bun x @biomejs/biome check
+
+.PHONY: test-tsc
+test-tsc:
+	bun x tsc --project tsconfig.json
 
 .PHONY: format
 format:

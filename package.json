@@ -23,6 +23,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@cubing/deploy": "^0.2.2",
+		"@cubing/dev-config": "^0.3.5",
 		"barely-a-dev-server": "^0.8.0",
 		"esbuild": "^0.25.4",
 		"typescript": "^5.8.3"

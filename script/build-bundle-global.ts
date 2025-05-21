@@ -1,10 +1,10 @@
+import { es2022Lib } from "@cubing/dev-config/esbuild/es2022";
 import { build } from "esbuild";
 
-build({
+await build({
+  ...es2022Lib(),
+  splitting: false,
   entryPoints: ["src/scramble-display/bundle-global.ts"],
-  format: "esm",
-  target: "es2020",
   outfile: "dist/bundle-global/scramble-display.bundle-global.js",
-  bundle: true,
   minify: true,
 });

@@ -1,16 +1,3 @@
 {
-  "compilerOptions": {
-    "target": "es2020",
-    "moduleResolution": "bundler",
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "outDir": "dist/types",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "removeComments": false
-  },
-  "include": ["src/scramble-display"]
+  "extends": "./node_modules/@cubing/dev-config/ts/es2022-types/tsconfig.json"
 }

@@ -37,7 +37,11 @@ deploy: clean build-site
 	bunx @cubing/deploy
 
 .PHONY: test
-test: lint
+test: check-dependency-constraints
+
+.PHONY: check-dependency-constraints
+check-dependency-constraints:
+	bun run ./script/check-dependency-constraints.ts
 
 .PHONY: lint
 lint: lint-biome lint-tsc

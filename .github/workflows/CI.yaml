@@ -13,7 +13,7 @@ jobs:
       - run: make setup
       - run: make build
 
-  lint:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +23,4 @@ jobs:
       - run: make setup
       - run: make lint-biome
       - run: make lint-tsc
+      - run: make test

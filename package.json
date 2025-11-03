@@ -18,7 +18,7 @@
 	"author": "Lucas Garron <code@garron.net>",
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
-		"cubing": "^0.58.1"
+		"cubing": "^0.59.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

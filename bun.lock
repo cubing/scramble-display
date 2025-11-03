@@ -9,7 +9,7 @@
       "devDependencies": {
         "@biomejs/biome": "^1.9.4",
         "@cubing/deploy": "^0.2.2",
-        "@cubing/dev-config": "^0.3.5",
+        "@cubing/dev-config": "^0.4.0",
         "barely-a-dev-server": "^0.8.0",
         "esbuild": "^0.25.4",
         "typescript": "^5.8.3",
@@ -37,7 +37,7 @@
 
     "@cubing/deploy": ["@cubing/deploy@0.2.2", "", { "dependencies": { "printable-shell-command": "0.1.0-pre3", "typescript": "^5.8.3" }, "bin": { "deploy": "dist/lib/@cubing/deploy/main.js" } }, "sha512-+AWXz2fRpDkX//CF0VmfisrpbQwI/yX/j1rmGH3xi9qDucDyfgXfcnVxuTQTY1vehfMYCRGb5X/+V5SI4Jn4wA=="],
 
-    "@cubing/dev-config": ["@cubing/dev-config@0.3.5", "", { "dependencies": { "esbuild": "^0.25.3" } }, "sha512-qxtQ4M2bFFj/iVKhYRWnRp90be+hjYcLeFwvxFlS4EsoPdslF+3sN2DiC1j11qwOkOCFvoaHJL4QmrriQDPkjA=="],
+    "@cubing/dev-config": ["@cubing/dev-config@0.4.0", "", { "dependencies": { "esbuild": "^0.25.3" } }, "sha512-XGDE6qnLj2QzfpIftU6Xc5z6n0va1CySCGlEupuVvKnmmNfvKlhi6N49f+gl5p/9SwREFdoH5Fmph2YmuegbKw=="],
 
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.25.4", "", { "os": "aix", "cpu": "ppc64" }, "sha512-1VCICWypeQKhVbE9oW/sJaAmjLxhVqacdkvPLEjwlttjfwENRSClS8EjBz0KzRyFSCPDIkuXW34Je/vk7zdB7Q=="],
 
@@ -142,5 +142,7 @@
     "typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
 
     "undici-types": ["undici-types@6.21.0", "", {}, "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="],
+
+    "barely-a-dev-server/@cubing/dev-config": ["@cubing/dev-config@0.3.5", "", { "dependencies": { "esbuild": "^0.25.3" } }, "sha512-qxtQ4M2bFFj/iVKhYRWnRp90be+hjYcLeFwvxFlS4EsoPdslF+3sN2DiC1j11qwOkOCFvoaHJL4QmrriQDPkjA=="],
   }
 }

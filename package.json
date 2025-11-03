@@ -21,12 +21,12 @@
 		"cubing": "^0.59.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@cubing/deploy": "^0.2.2",
+		"@biomejs/biome": "^2.3.2",
+		"@cubing/deploy": "^0.2.3",
 		"@cubing/dev-config": "^0.4.0",
-		"barely-a-dev-server": "^0.8.0",
-		"esbuild": "^0.25.4",
-		"typescript": "^5.8.3"
+		"barely-a-dev-server": "^0.8.1",
+		"esbuild": "^0.25.12",
+		"typescript": "^5.9.3"
 	},
 	"files": [
 		"/bun.lock",

@@ -1,7 +1,8 @@
 body {
   /* From https://leaverou.github.io/css3patterns/#seigaiha */
   background-color: #ecf7ff;
-  background-image: radial-gradient(
+  background-image:
+    radial-gradient(
       circle at 100% 150%,
       #ecf7ff 24%,
       white 24%,

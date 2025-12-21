@@ -1,10 +1,11 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "scramble-display",
       "dependencies": {
-        "cubing": ">=0.59.1 && < 1.0.0",
+        "cubing": ">=0.59.1 && <1.0.0",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.3.2",
@@ -12,6 +13,7 @@
         "@cubing/dev-config": "^0.4.1",
         "@types/bun": "^1.3.1",
         "barely-a-dev-server": "^0.8.1",
+        "bun-dx": "^0.1.3",
         "esbuild": "^0.25.12",
         "typescript": "^5.9.3",
       },
@@ -113,6 +115,8 @@
     "ansi-regex": ["ansi-regex@6.1.0", "", {}, "sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA=="],
 
     "barely-a-dev-server": ["barely-a-dev-server@0.8.1", "", { "dependencies": { "@cubing/dev-config": "^0.3.1" }, "peerDependencies": { "esbuild": "^0.25.0" } }, "sha512-RKncr0hjC8zNt3WCcD7fDUBHERPBEOarKtlXZrbkF8M8fK8nBhOl9283AcMWzlbgxMEjS34x+Fah3kLf4snm5Q=="],
+
+    "bun-dx": ["bun-dx@0.1.3", "", { "bin": { "bun-dx": "bin/bun-dx.ts" } }, "sha512-ZtX+hJxnhW7FaEF4PkzC/ANvHRHx4JYRP5UoQVVNEyg6rzXcx8f9FPT+tQTYXv9ewUVUqmAH17mDjb54m/vqcw=="],
 
     "bun-types": ["bun-types@1.3.1", "", { "dependencies": { "@types/node": "*" }, "peerDependencies": { "@types/react": "^19" } }, "sha512-NMrcy7smratanWJ2mMXdpatalovtxVggkj11bScuWuiOoXTiKIu2eVS1/7qbyI/4yHedtsn175n4Sm4JcdHLXw=="],
 

@@ -1,6 +1,13 @@
 .PHONY: build
 build: build-esm build-bundle-global build-types
 
+.PHONY: check
+check: lint test build check-package.json
+
+.PHONY: check-package.json
+check-package.json: build
+	bun x --package @cubing/dev-config package.json -- check
+
 .PHONY: setup
 setup:
 	bun install --no-save
@@ -15,7 +22,7 @@ build-bundle-global: setup
 
 .PHONY: build-types
 build-types: setup
-	bun x tsc --project ./.config/types.tsconfig.json
+	bun x -- bun-dx --package typescript tsc -- --project ./.config/types.tsconfig.json
 
 .PHONY: build-site
 build-site: setup
@@ -30,11 +37,11 @@ clean:
 	rm -rf ./.cache ./dist
 
 .PHONY: prepublishOnly
-prepublishOnly: test clean build
+prepublishOnly: clean check build
 
 .PHONY: deploy
 deploy: clean build-site
-	bunx @cubing/deploy
+	bun x -- bun-dx --package @cubing/deploy deploy --
 
 .PHONY: test
 test: check-dependency-constraints
@@ -48,15 +55,15 @@ lint: lint-biome lint-tsc
 
 .PHONY: lint-biome
 lint-biome: setup
-	bun x @biomejs/biome check
+	bun x -- bun-dx --package @biomejs/biome biome -- check
 
 .PHONY: lint-tsc
 lint-tsc: setup
-	bun x tsc --project tsconfig.json
+	bun x -- bun-dx --package typescript tsc -- --project tsconfig.json
 
 .PHONY: format
 format: setup
-	bun x @biomejs/biome check --write
+	bun x -- bun-dx --package @biomejs/biome biome -- check --write
 
 .PHONY: publish
 publish: setup

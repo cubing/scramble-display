@@ -10,7 +10,7 @@ check-package.json: build
 
 .PHONY: setup
 setup:
-	bun install --no-save
+	bun install --frozen-lockfile
 
 .PHONY: build-esm
 build-esm: setup
